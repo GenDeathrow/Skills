@@ -18,6 +18,7 @@ public class SkillDifficulty
 	public boolean alwaysDrop;
 	public int maxSkillGain;
 	public String skillType;
+	public int minLvl;
 
 	public int meta;
 
@@ -35,6 +36,7 @@ public class SkillDifficulty
 		this.alwaysDrop = false;
 		this.maxSkillGain = -1;
 		this.skillType = null;
+
 	}
 	
 	public SkillDifficulty setDifficulty(double difficulty)
@@ -128,7 +130,6 @@ public class SkillDifficulty
 	{
 		return SKSettings.blockRegistry.containsKey(id) && SKSettings.blockRegistry.get(id).skillType == type; 
 	}
-
 	
 }
 

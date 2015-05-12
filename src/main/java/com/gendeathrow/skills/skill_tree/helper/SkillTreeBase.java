@@ -114,7 +114,7 @@ public abstract class SkillTreeBase
 		{
 			System.out.println("Gained Skill point:"+ this.current);
 			if(!this.suspendGain) this.increaseSkill(this.gain);
-			else {System.out.println("Suspended to change skill");}
+			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
 		}
 		
 		this.current = MathHelper.round(this.current, 2);
@@ -167,6 +167,17 @@ public abstract class SkillTreeBase
 		else System.out.println("Lost Materials");
 		return success;
 	}
+	
+	public boolean getMinLvl(SkillDifficulty skdiff)
+	{
+		//Bonus will be armors.
+		int bonus = 0;
+		
+		int minlevel = (int) (skdiff.difficulty - bonus);
+		
+		return minlevel <= this.current ? true : false;
+	}
+	
 	
 	public void readNBT(NBTTagCompound nbt)
 	{

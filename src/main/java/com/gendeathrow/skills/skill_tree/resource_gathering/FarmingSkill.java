@@ -1,15 +1,23 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,10 +29,12 @@ public class FarmingSkill extends SkillTreeBase
 
 	private static final SkillDifficulty useHoe= new SkillDifficulty("useHoe").setDifficulty(0).setSkill("farming");
 	private static final SkillDifficulty bonemeal= new SkillDifficulty("bonemeal").setDifficulty(10).setSkill("farming");
+	private static final SkillDifficulty harvest= new SkillDifficulty("harvest").setDifficulty(10).setSkill("farming");
 
 	private int hoeWait;
 	private boolean canGain;
 	private long lastGain;
+	private BlockPos lastBlock;
 	
 	@SideOnly(Side.CLIENT)
 	private ArrayList hoeUsed = new ArrayList();
@@ -33,7 +43,7 @@ public class FarmingSkill extends SkillTreeBase
 	{
 		super();
 		this.lastGain = 0;
-		this.hoeWait = 1000;
+		this.hoeWait = 5000;
 		this.canGain = true;
 	}
 	
@@ -71,9 +81,6 @@ public class FarmingSkill extends SkillTreeBase
 			
 			IBlockState block = newEvent.world.getBlockState(newEvent.pos);
 			
-			System.out.println(block.getBlock().getLocalizedName());
-			
-			System.out.println("does -> "+ (block.getBlock() != Blocks.grass || block.getBlock() != Blocks.dirt));
 			if(block.getBlock() == Blocks.grass) 
 			{
 				this.useHoe(newEvent);
@@ -88,37 +95,101 @@ public class FarmingSkill extends SkillTreeBase
 		else if(event instanceof BonemealEvent)
 		{
 			BonemealEvent newEvent = (BonemealEvent) event;
+			IBlockState block = newEvent.world.getBlockState(newEvent.pos);
+
+			if(block instanceof BlockCrops)
+			{
+				BlockCrops crop = (BlockCrops)block.getBlock();
+				
+				if(crop.canUseBonemeal(null, null, null, null))
+				{
+					useBonemeal(newEvent);		
+				}
+			}
 			
-			this.calcuateGain(newEvent.entityPlayer, bonemeal);
+		}else if(event instanceof PlayerInteractEvent){}
+		else if(event instanceof BreakEvent)
+		{
+			BreakEvent newEvent = (BreakEvent) event;
+			if(newEvent.pos == null) return;
 			
+			IBlockState block = newEvent.world.getBlockState(newEvent.pos);
+	
+			if(block.getBlock() instanceof BlockCrops)
+			{
+				BlockCrops crop = (BlockCrops)block.getBlock();
+				if(!crop.canGrow(null, null, block, false))
+				{
+					if(randomKillPlant(harvest))
+					{
+						System.out.println("Kill Plant");
+						newEvent.setCanceled(true);
+						newEvent.world.setBlockState(newEvent.pos, Blocks.deadbush.getDefaultState());
+						newEvent.world.markBlockForUpdate(newEvent.pos);
+					}
+					else
+					{
+						onHarvest(newEvent);
+						this.lastBlock = newEvent.pos;
+					}
+
+				}
+				
+			}	
+			
+		}else if(event instanceof HarvestDropsEvent)
+		{
+			HarvestDropsEvent newEvent = (HarvestDropsEvent) event;
+System.out.println("Harvest Drop event");
+			if(newEvent.pos != this.lastBlock) return;
+			 
 			if(this.success == 0)
 			{
-				newEvent.setCanceled(true);
+				newEvent.dropChance = .5F;
 			}
-		}else if(event instanceof PlayerInteractEvent)
+			else{
+				List<ItemStack> dropList = newEvent.drops;
+				System.out.println("DropList:"+ newEvent.drops.size());
+				newEvent.drops.clear();
+				for(ItemStack item : dropList)
+				{
+					System.out.println("increase items:"+ item.getDisplayName());
+					item.stackSize = 100;
+					newEvent.drops.add(item);
+				}
+				
+
+				
+			}
+		}else if(event instanceof PlayerEvent.HarvestCheck)
 		{
-			PlayerInteractEvent newEvent = (PlayerInteractEvent) event;
-			
-			if(newEvent.pos == null) return;
-			IBlockState block = newEvent.world.getBlockState(newEvent.pos);
-			
-			if(block.getBlock() instanceof IPlantable)
-			{
-				
-				//System.out.println("found plant:"+ block.getBlock().getLocalizedName());
-				
-				
-			}
+			PlayerEvent.HarvestCheck newEvent= (PlayerEvent.HarvestCheck)event; 
 		}
 		
 		
 	}
 	
+	private boolean randomKillPlant(SkillDifficulty skdiff)
+	{
+		Random rand = new Random();
+		
+		double chance = this.getChance(skdiff) * .1;
+		
+		if(rand.nextDouble() <= chance)
+		{
+			return true;
+		}
+		//float chance = this.current 
+		
+		return false;
+	}
 	
 	private void useHoe(UseHoeEvent event)
 	{
 		
 		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
+		
+		if(!this.getMinLvl(useHoe)) return;
 		
 		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
 		
@@ -143,6 +214,74 @@ public class FarmingSkill extends SkillTreeBase
 			event.setCanceled(true);
 		}
 
+	}
+	
+	private void useBonemeal(BonemealEvent event)
+	{
+		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
+		
+		if(!this.getMinLvl(bonemeal)) return;
+		
+		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
+		
+		System.out.println("Last Gain:"+ this.lastGain);
+		long flag = (this.lastGain + this.hoeWait);
+		
+		System.out.println("Flag:"+ flag +"bool:"+ (Minecraft.getSystemTime() >= flag) );
+		
+		
+		if(Minecraft.getSystemTime() >= flag)
+		{
+			this.suspendGain = false;
+			this.lastGain = Minecraft.getSystemTime();
+		}else{
+			this.suspendGain = true;
+		}
+		
+		this.calcuateGain(event.entityPlayer, bonemeal);
+		
+		if(this.success == 0)
+		{
+			event.setCanceled(true);
+		}
+	}
+	
+	private void onHarvest(BreakEvent event)
+	{
+		
+		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
+		
+		
+		
+		if(!this.getMinLvl(harvest)) return;
+		
+		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
+		
+		System.out.println("Last Gain:"+ this.lastGain);
+		long flag = (this.lastGain + this.hoeWait);
+		
+		System.out.println("Flag:"+ flag +"bool:"+ (Minecraft.getSystemTime() >= flag) );
+		
+		
+		if(Minecraft.getSystemTime() >= flag)
+		{
+			this.suspendGain = false;
+			this.lastGain = Minecraft.getSystemTime();
+		}else{
+			this.suspendGain = true;
+		}
+		
+		this.calcuateGain(event.getPlayer(), harvest);
+		
+		if(this.success == 0)
+		{
+			event.setCanceled(true);
+		}
+	}
+	
+	private void bonusDrops()
+	{
+		
 	}
 
 }
