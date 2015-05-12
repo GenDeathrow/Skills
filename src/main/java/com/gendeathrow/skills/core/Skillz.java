@@ -1,8 +1,5 @@
 package com.gendeathrow.skills.core;
 
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -14,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 import com.gendeathrow.skills.core.proxies.CommonProxy;
-import com.sun.istack.internal.logging.Logger;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Skillz.MODID, version = Skillz.VERSION, name = Skillz.Name)
 public class Skillz
@@ -25,7 +22,7 @@ public class Skillz
 	    public static final String Proxy = "com.gendeathrow.skills.core.proxies";
 	    public static final String Channel = "SZ_GenD";
 	    
-	    public static Logger log;
+	    public static  Logger log;
 	    
 	    @Instance(Skillz.MODID)
 	    public static Skillz instance;
@@ -39,6 +36,8 @@ public class Skillz
 		@EventHandler
 		public void preInit(FMLPreInitializationEvent event)
 		{
+			log = event.getModLog();
+			
 			proxy.preInit(event);
 		}
 	    @EventHandler
