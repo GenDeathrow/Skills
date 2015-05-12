@@ -150,7 +150,11 @@ System.out.println("Harvest Drop event");
 			else{
 				List<ItemStack> dropList = newEvent.drops;
 				System.out.println("DropList:"+ newEvent.drops.size());
-				newEvent.drops.clear();
+
+				for(int i=0; i <= newEvent.drops.size(); i++)
+				{
+					//i
+				}
 				for(ItemStack item : dropList)
 				{
 					System.out.println("increase items:"+ item.getDisplayName());
