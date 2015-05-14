@@ -83,6 +83,33 @@ public abstract class SkillTreeBase
 		return this.lock;
 	}
 	
+	public void calculateGain(EntityPlayer player, int success)
+	{
+		float chance = .5f;
+		int totalcap = SKSettings.totalSkillCap;
+		float gainfactor = SKSettings.gainFactor;
+		float failurefactor = SKSettings.failure_factor;
+		float total = SkillTrackerData.getTotalSkillPoints(player);
+		
+		double formula = ((totalcap-total) / totalcap / 4 + (this.max - this.current) / this.max / 4 + ((1.0 - chance) * (success +(1-success) * failurefactor)) / 2) * gainfactor;
+		
+		if(formula < 0 ) formula = 0;
+		else if( formula > 1) formula = 1;
+		
+		Random randomGenerator = new Random();
+		double number = randomGenerator.nextDouble();
+		System.out.println("Attempting to gain skill:"+ formula +" > " + number);
+		if(formula > number)
+		{
+			System.out.println("Gained Skill point:"+ this.current);
+			if(!this.suspendGain) this.increaseSkill(this.gain);
+			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
+		}
+		
+		this.current = MathHelper.round(this.current, 2);
+		
+	}
+	
 	public void calcuateGain(EntityPlayer player,SkillDifficulty difficulty)
 	{		
 		if(this.lock || this.current >= 100 || this.unlearn) return;

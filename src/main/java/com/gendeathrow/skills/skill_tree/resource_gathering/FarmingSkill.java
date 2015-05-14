@@ -1,6 +1,7 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -140,7 +141,7 @@ public class FarmingSkill extends SkillTreeBase
 		}else if(event instanceof HarvestDropsEvent)
 		{
 			HarvestDropsEvent newEvent = (HarvestDropsEvent) event;
-System.out.println("Harvest Drop event");
+			System.out.println("Harvest Drop event");
 			if(newEvent.pos != this.lastBlock) return;
 			 
 			if(this.success == 0)
@@ -148,19 +149,21 @@ System.out.println("Harvest Drop event");
 				newEvent.dropChance = .5F;
 			}
 			else{
-				List<ItemStack> dropList = newEvent.drops;
-				System.out.println("DropList:"+ newEvent.drops.size());
+				List<ItemStack> dropList = new ArrayList();
+				System.out.println("DropListB:"+ newEvent.drops.size());
+				
+				Iterator<ItemStack> it = newEvent.drops.iterator();
 
-				for(int i=0; i <= newEvent.drops.size(); i++)
+				ItemStack item;
+				while(it.hasNext())
 				{
-					//i
-				}
-				for(ItemStack item : dropList)
-				{
+					item = it.next();
 					System.out.println("increase items:"+ item.getDisplayName());
-					item.stackSize = 100;
-					newEvent.drops.add(item);
+					dropList.add(item.copy());
 				}
+				 newEvent.drops.addAll(dropList);
+				System.out.println("DropListA:"+ newEvent.drops.size());
+
 				
 
 				

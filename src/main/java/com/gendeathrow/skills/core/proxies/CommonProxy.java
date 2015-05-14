@@ -7,7 +7,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.gendeathrow.skills.common.EventHandler;
+import com.gendeathrow.skills.common.ServerTick;
 import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.handlers.ObjectHandler;
 
 public class CommonProxy {
 
@@ -23,13 +25,21 @@ public class CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent event) 
 	{
-		// TODO Auto-generated method stub
+
 		
 	}
 
 	public void init(FMLInitializationEvent event) 
 	{
 		registerEventHandlers();
+		registerTickHandlers();
+
+//		//ObjectHandler.initItems();
+//		ObjectHandler.initBlocks();
+//		ObjectHandler.registerBlocks();
+//		ObjectHandler.registerEntities();
+//		ObjectHandler.registerItems();
+//		ObjectHandler.registerRecipes();
 		
 		SkillDifficulty.registerBlocks();
 	}
@@ -39,8 +49,9 @@ public class CommonProxy {
 		
 	}
 
-	public void registerTickHandlers() {
-		//FMLCommonHandler.instance().bus().register(new ServerTickHandler());
+	public void registerTickHandlers() 
+	{
+		FMLCommonHandler.instance().bus().register(new ServerTick());
 			
 	}
 
@@ -53,6 +64,11 @@ public class CommonProxy {
 //		UpdateNotification updateManager = new UpdateNotification();
 //		MinecraftForge.EVENT_BUS.register(updateManager);
 //		FMLCommonHandler.instance().bus().register(updateManager);
+	}
+	
+	public void registerRenders()
+	{
+		
 	}
 
 }

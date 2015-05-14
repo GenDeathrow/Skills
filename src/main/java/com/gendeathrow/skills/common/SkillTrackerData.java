@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 
+import com.gendeathrow.skills.entity.SK_FishHook;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
 
@@ -17,11 +18,13 @@ public class SkillTrackerData
 {
 	public EntityPlayer trackedEntity;
 	public ArrayList<SkillTreeBase> PlayerSkills;
+	public SK_FishHook fishingEntity;
 
 	public SkillTrackerData(EntityPlayerMP entity) throws InstantiationException, ReflectiveOperationException, Exception, Throwable 
 	{
 		this.trackedEntity = entity;
 		this.PlayerSkills = new ArrayList<SkillTreeBase>();
+		this.fishingEntity = null;
 		
 		HashMap<String, Class<?>> SkillList = SkillTree_Manager.instance.SkillList;
 

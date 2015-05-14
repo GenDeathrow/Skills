@@ -1,5 +1,7 @@
 package com.gendeathrow.skills.core;
 
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -9,8 +11,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
+import com.gendeathrow.skills.client.render.renderFishing;
 import com.gendeathrow.skills.core.proxies.CommonProxy;
+import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.items.SK_FishingRod;
+
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Skillz.MODID, version = Skillz.VERSION, name = Skillz.Name)
@@ -39,10 +46,15 @@ public class Skillz
 			log = event.getModLog();
 			
 			proxy.preInit(event);
+			
+			SK_FishingRod.init();
+			SK_FishingRod.register();
 		}
 	    @EventHandler
 	    public void init(FMLInitializationEvent event)
 	    {
+			EntityRegistry.registerModEntity(SK_FishHook.class, "skfishinghook", 10, Skillz.instance, 64, 1, true);
+
 	    	proxy.init(event);
 	    }
 	    @EventHandler

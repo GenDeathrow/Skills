@@ -3,11 +3,12 @@ package com.gendeathrow.skills.common;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
-
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+
+import com.gendeathrow.skills.core.Skillz;
+import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class Skill_TrackerManager 
 {
@@ -41,10 +42,16 @@ public class Skill_TrackerManager
 		skillTrackerList.put(skillTrack.trackedEntity.getName(), skillTrack);
 	}
 
-	public static void syncMultiplayerTracker(SkillTrackerData skillTrack) 
+	public static void syncMultiplayerTracker(SkillTrackerData tracker) 
 	{
-		// TODO Auto-generated method stub
+		if(!(tracker.trackedEntity instanceof EntityPlayer))
+		{
+			return;
+		}
 		
+		
+//		Skillz.instance.network.sendToAllAround(new PacketEnviroMine(pData), new TargetPoint(tracker.trackedEntity.worldObj.provider.dimensionId, tracker.trackedEntity.posX, tracker.trackedEntity.posY, tracker.trackedEntity.posZ, 128D));
+			
 	}
 	
 	public static void saveTracker(SkillTrackerData tracker)
