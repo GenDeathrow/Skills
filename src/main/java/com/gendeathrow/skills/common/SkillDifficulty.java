@@ -2,6 +2,7 @@ package com.gendeathrow.skills.common;
 
 import java.util.HashMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 
 import com.gendeathrow.skills.core.SKSettings;
@@ -75,61 +76,70 @@ public class SkillDifficulty
 	{
 		System.out.println("Regsitering Blocks");
 
-		registerBlock(Blocks.grass.getUnlocalizedName(), (new SkillDifficulty(Blocks.grass.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setMaxSkillGain(10).setSkill("farming")));
-		registerBlock(Blocks.dirt.getUnlocalizedName(), (new SkillDifficulty(Blocks.dirt.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setMaxSkillGain(10).setSkill("farming")));
+//		registerBlock(Blocks.grass.getUnlocalizedName(), (new SkillDifficulty(Blocks.grass.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setMaxSkillGain(10).setSkill("farming")));
+//		registerBlock(Blocks.dirt.getUnlocalizedName(), (new SkillDifficulty(Blocks.dirt.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setMaxSkillGain(10).setSkill("farming")));
 
+		//lumberjack
 		registerBlock(Blocks.log.getUnlocalizedName(), (new SkillDifficulty(Blocks.log.getUnlocalizedName()).setDifficulty(0D).setSkill("lumberjacking")));
 		registerBlock(Blocks.log2.getUnlocalizedName(), (new SkillDifficulty(Blocks.log2.getUnlocalizedName()).setDifficulty(0D).setSkill("lumberjacking")));
 		
-		registerBlock(Blocks.sand.getUnlocalizedName(), (new SkillDifficulty(Blocks.sand.getUnlocalizedName()).setDifficulty(2D).setAlwaysDrop(true).setMaxSkillGain(12).setSkill("mining")));
-		registerBlock(Blocks.gravel.getUnlocalizedName(), (new SkillDifficulty(Blocks.gravel.getUnlocalizedName()).setDifficulty(3D).setAlwaysDrop(true).setSkill("mining")));
-		registerBlock(Blocks.stone.getUnlocalizedName(), (new SkillDifficulty(Blocks.stone.getUnlocalizedName()).setDifficulty(2D).setSkill("mining")));
-		registerBlock(Blocks.coal_block.getUnlocalizedName(), (new SkillDifficulty(Blocks.coal_block.getUnlocalizedName()).setDifficulty(5D).setSkill("mining")));
+//		registerBlock(Blocks.sand.getUnlocalizedName(), (new SkillDifficulty(Blocks.sand.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setMaxSkillGain(12).setSkill("mining")));
+
+		//Ore (mining)
+		registerBlock(Blocks.coal_block.getUnlocalizedName(), (new SkillDifficulty(Blocks.coal_block.getUnlocalizedName()).setDifficulty(1D).setSkill("mining")));
 		registerBlock(Blocks.iron_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.iron_ore.getUnlocalizedName()).setDifficulty(10D).setSkill("mining")));
-		registerBlock(Blocks.gold_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.gold_ore.getUnlocalizedName()).setDifficulty(20D).setSkill("mining")));
-		registerBlock(Blocks.redstone_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.redstone_ore.getUnlocalizedName()).setDifficulty(30D).setSkill("mining")));
-		registerBlock(Blocks.diamond_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.diamond_ore.getUnlocalizedName()).setDifficulty(40D).setSkill("mining")));		
-		registerBlock(Blocks.clay.getUnlocalizedName(), (new SkillDifficulty(Blocks.clay.getUnlocalizedName()).setDifficulty(15D).setSkill("mining")));
-		registerBlock(Blocks.netherrack.getUnlocalizedName(), (new SkillDifficulty(Blocks.netherrack.getUnlocalizedName()).setDifficulty(15D).setSkill("mining")));
-		registerBlock(Blocks.mossy_cobblestone.getUnlocalizedName(), (new SkillDifficulty(Blocks.mossy_cobblestone.getUnlocalizedName()).setDifficulty(1D).setSkill("mining")));
-		registerBlock(Blocks.cobblestone.getUnlocalizedName(), (new SkillDifficulty(Blocks.cobblestone.getUnlocalizedName()).setDifficulty(1D).setSkill("mining")));
+		registerBlock(Blocks.gold_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.gold_ore.getUnlocalizedName()).setDifficulty(30D).setSkill("mining")));
+		registerBlock(Blocks.redstone_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.redstone_ore.getUnlocalizedName()).setDifficulty(50D).setSkill("mining")));
+		registerBlock(Blocks.diamond_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.diamond_ore.getUnlocalizedName()).setDifficulty(60D).setSkill("mining")));		
+		registerBlock(Blocks.emerald_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.emerald_ore.getUnlocalizedName()).setDifficulty(50D).setSkill("mining")));
 		registerBlock(Blocks.lapis_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.lapis_ore.getUnlocalizedName()).setDifficulty(20D).setSkill("mining")));
-		registerBlock(Blocks.emerald_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.emerald_ore.getUnlocalizedName()).setDifficulty(25D).setSkill("mining")));
-		registerBlock(Blocks.obsidian.getUnlocalizedName(), (new SkillDifficulty(Blocks.obsidian.getUnlocalizedName()).setDifficulty(50D).setSkill("mining")));
-		registerBlock(Blocks.quartz_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.quartz_ore.getUnlocalizedName()).setDifficulty(28D).setSkill("mining")));
+		registerBlock(Blocks.quartz_ore.getUnlocalizedName(), (new SkillDifficulty(Blocks.quartz_ore.getUnlocalizedName()).setDifficulty(35D).setSkill("mining")));
+
+		//mining
+		registerBlock(Blocks.gravel.getUnlocalizedName(), (new SkillDifficulty(Blocks.gravel.getUnlocalizedName()).setDifficulty(0D).setAlwaysDrop(true).setSkill("mining")));
+		registerBlock(Blocks.stone.getUnlocalizedName(), (new SkillDifficulty(Blocks.stone.getUnlocalizedName()).setDifficulty(0D).setSkill("mining")));
+		registerBlock(Blocks.clay.getUnlocalizedName(), (new SkillDifficulty(Blocks.clay.getUnlocalizedName()).setDifficulty(15D).setSkill("mining")));
+		registerBlock(Blocks.netherrack.getUnlocalizedName(), (new SkillDifficulty(Blocks.netherrack.getUnlocalizedName()).setDifficulty(25D).setSkill("mining")));
+		registerBlock(Blocks.mossy_cobblestone.getUnlocalizedName(), (new SkillDifficulty(Blocks.mossy_cobblestone.getUnlocalizedName()).setDifficulty(0D).setSkill("mining")));
+		registerBlock(Blocks.cobblestone.getUnlocalizedName(), (new SkillDifficulty(Blocks.cobblestone.getUnlocalizedName()).setDifficulty(0D).setSkill("mining")));
+		registerBlock(Blocks.obsidian.getUnlocalizedName(), (new SkillDifficulty(Blocks.obsidian.getUnlocalizedName()).setDifficulty(70D).setSkill("mining")));
 		registerBlock(Blocks.sandstone.getUnlocalizedName(), (new SkillDifficulty(Blocks.sandstone.getUnlocalizedName()).setDifficulty(18D).setSkill("mining")));
 		registerBlock(Blocks.red_sandstone.getUnlocalizedName(), (new SkillDifficulty(Blocks.red_sandstone.getUnlocalizedName()).setDifficulty(18D).setSkill("mining")));
+		
+		
 		
 		System.out.println(SKSettings.blockRegistry.size() +" Block Difficulty/Skills set");
 	}
 	
+	public static SkillDifficulty getBlockDifficulty(Block block)
+	{
+		return getBlockDifficulty(block.getUnlocalizedName());
+	}
 	public static SkillDifficulty getBlockDifficulty(String id)
 	{
-		if(SKSettings.blockRegistry.containsKey(id)) {}// System.out.println(id+ " Exist");
-		else 
-		{
-			
-			//System.out.println(id+ " does not Exist");
-			
-		   //try and get Default
-			//getDefaultSkillDifficulty();
-		}
-		
 		return SKSettings.blockRegistry.containsKey(id) ? SKSettings.blockRegistry.get(id) : null;
 	}
 	
 
-	//TODO based off type of material the block is. 
-	public static boolean hasBlockDifficulty(String id)
+	public static boolean hasBlockDifficulty(Block block)
 	{
-		return SKSettings.blockRegistry.containsKey(id); 
+		return hasBlockDifficulty(block.getUnlocalizedName());
 	}
+		public static boolean hasBlockDifficulty(String id)
+		{
+			return SKSettings.blockRegistry.containsKey(id); 
+		}
 	
-	//TODO based off type of material the block is. 
-	public static boolean hasBlockDifficulty(String id, String type)
+	public static boolean hasBlockDifficulty(Block block, String type)
 	{
-		return SKSettings.blockRegistry.containsKey(id) && SKSettings.blockRegistry.get(id).skillType == type; 
+		return hasBlockDifficulty(block.getUnlocalizedName(), type);
 	}
+		public static boolean hasBlockDifficulty(String id, String type)
+		{
+			return SKSettings.blockRegistry.containsKey(id) && SKSettings.blockRegistry.get(id).skillType == type; 
+		}
+	
+	
 	
 }
 

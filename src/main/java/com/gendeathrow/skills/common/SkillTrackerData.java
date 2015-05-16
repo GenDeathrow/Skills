@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 import com.gendeathrow.skills.entity.SK_FishHook;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
@@ -61,9 +63,17 @@ public class SkillTrackerData
 		
 		while(ti.hasNext())
 		{
-			SkillTreeBase skill = ti.next();			
+			SkillTreeBase skill = ti.next();
+			double prelvl = skill.getSkillLevel();
+			
 			skill.onEvent(event);
+			
 			if(skill.markedDirty()) markedForSave = true;
+			
+			if(skill.hasLvlUp(prelvl))
+			{
+				this.trackedEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "("+ skill.getLocName() +") "+ "+1 Leveled Up to "+ ((long)skill.getSkillLevel())));
+			}
 		}	
 		
 		if(markedForSave) Skill_TrackerManager.saveTracker(this);

@@ -1,21 +1,25 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.ChatHelper;
 
 public class MiningSkillTree extends SkillTreeBase
 {
 	
 	BlockPos lastblock;
 
-	
+	private boolean noDrops;
 
 	@Override
 	public String getLocName() {
@@ -45,18 +49,45 @@ public class MiningSkillTree extends SkillTreeBase
 		{
 			PlayerEvent.BreakSpeed newevent = (PlayerEvent.BreakSpeed)event;
 			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
-			
-			float bonusSpeed = (float) (((this.current - 50)/10)*.05);
+						
+			float bonusSpeed = this.getBonusFactor(50, 10, .05);
 			bonusSpeed = bonusSpeed < 0 ? 0 : bonusSpeed;
-			newevent.newSpeed += bonusSpeed;		
+			
+			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state.getBlock());
+			if(difficulty == null) return;	
+			
+			int miningBonus = 0;
+
+			if(this.hasMinLvl(difficulty , miningBonus))
+			{
+				newevent.newSpeed += bonusSpeed;	
+			}
+			else
+			{
+				ChatHelper.instance.trySend(newevent.entityPlayer, this, "Your Skill needs to be "+ this.getMinLvl(difficulty , miningBonus));
+				newevent.newSpeed = .25f;
+			}
+			
 		}else if(event instanceof BlockEvent.BreakEvent)
 		{
 			BlockEvent.BreakEvent newevent = (BlockEvent.BreakEvent)event;
 			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+
+			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state.getBlock());
+			if(difficulty == null) return;	
+
+			int miningBonus = 0;
 			
-			this.lastblock = newevent.pos;
-			this.doBlockBreak(newevent);
-		
+			if(this.hasMinLvl(difficulty , miningBonus))
+			{
+				this.lastblock = newevent.pos;
+				this.doBlockBreak(newevent);
+			}
+			else
+			{
+				newevent.setExpToDrop(0);
+				this.noDrops = true;
+			}
 		}
 		else if(event instanceof BlockEvent.HarvestDropsEvent)
 		{
@@ -64,25 +95,40 @@ public class MiningSkillTree extends SkillTreeBase
 			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
 			
 			BlockPos pos = newevent.pos;
-			if(this.success == 0 && pos == this.lastblock)
+			if((this.success == 0 && pos == this.lastblock) || this.noDrops == true)
 			{
 				newevent.dropChance = 0f;
+				this.noDrops = false;
 			}
 			
-			float bonusDrops = (float) (((this.current - 70)/10)*.05);
-			bonusDrops = bonusDrops < 0 ? 0 : bonusDrops;
+			// Make sure we only give bonus drops for ores
+			 int[] ores = OreDictionary.getOreIDs(new ItemStack(newevent.state.getBlock()));
+			 boolean flag = false;
+			 for (int id : ores)
+			 {
+				 String name = OreDictionary.getOreName(id);
+				 if(name.startsWith("ore")) 
+				 {
+					 System.out.println("This is an ore");
+					 flag = true; 
+				 }
+			 }
+			
+			if(flag)
+			{
+				float bonusDropChance = this.getBonusFactor(70, 10, .05);
+				bonusDropChance = bonusDropChance < 0 ? 0 : bonusDropChance;
+				this.doBonusDrops(newevent, bonusDropChance);
+			}
 		}
 	}
 
 
 	private void doBlockBreak(BreakEvent event)
 	{
-		String id = event.state.getBlock().getUnlocalizedName();
-		System.out.println("Block Name:"+ id);
-		SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(id);
+		SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(event.state.getBlock());
 		if(difficulty == null) return;		
-		System.out.println("Block Difficulty:"+ difficulty.difficulty);
-		
+		//TODO match meta data
 		int meta = event.state.getBlock().getMetaFromState(event.state);
 	
 		this.calculateGain(event.getPlayer(), difficulty);

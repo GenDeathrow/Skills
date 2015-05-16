@@ -9,6 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
@@ -63,13 +65,13 @@ public abstract class SkillTreeBase
 	/**
 	 * Mark this for saving
 	 */
-	private void markDirty(){this.markSave = true;}
+	private void markDirty(){ this.markSave = true; }
 
 	/** 
 	 * returns current skill level
 	 * @return
 	 */
-	public float getSkillLevel(){return this.current;}
+	public float getSkillLevel(){ return this.current; }
 
 	public void increaseSkill(double value) 
 	{
@@ -91,14 +93,7 @@ public abstract class SkillTreeBase
 		this.markSave = true;
 	}
 	
-	/** 
-	 * Returns if Skill is locked
-	 * @return
-	 */
-	public boolean isLocked()
-	{
-		return this.lock;
-	}
+	public boolean isLocked(){ return this.lock; }
 	
 	/**
 	 * This will calculate if the player gains a skill point based off random chance with success and chance
@@ -108,67 +103,39 @@ public abstract class SkillTreeBase
 	 * @param chance
 	 * @return
 	 */
-	public double calculateGainNoDiff(EntityPlayer player, int success)
+	public double calculateGain(EntityPlayer player, int success)
 	{
-		return calculateGainNoDiff(player, success , .5f);
+		return calculateGain(player, success , .5D);
 	}
-	/**
-	 * This will calculate if the player gains a skill point based off random chance with success and chance
-	 * 
-	 * @param player
-	 * @param success
-	 * @param chance
-	 * @return
-	 */
-	public double calculateGainNoDiff(EntityPlayer player, int success , float chance)
-	{
-		int totalcap = SKSettings.totalSkillCap;
-		float gainfactor = SKSettings.gainFactor;
-		float failurefactor = SKSettings.failure_factor;
-		float total = SkillTrackerData.getTotalSkillPoints(player);
-		
-		double formula = ((totalcap-total) / totalcap / 4 + (this.max - this.current) / this.max / 4 + ((1.0 - chance) * (success +(1-success) * failurefactor)) / 2) * gainfactor;
-		
-		if(formula < 0 ) formula = 0;
-		else if( formula > 1) formula = 1;
-		
-		Random randomGenerator = new Random();
-		double number = randomGenerator.nextDouble();
-		System.out.println("Attempting to gain skill:"+ formula +" > " + number);
-		if(formula > number)
-		{
-			System.out.println("Gained Skill point:"+ this.current);
-			if(!this.suspendGain) this.increaseSkill(this.gain);
-			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
-		}
-		
-		this.current = MathHelper.round(this.current, 2);
-		return formula;
-	}
+
 	/**
  	 * This will calculate if the player gains a skill point based off random chance with success and chance
 	 * @param player
 	 * @param difficulty (Skill Difficulty)
 	 * @return
 	 */
-	public double calculateGain(EntityPlayer player,SkillDifficulty difficulty)
+	public double calculateGain(EntityPlayer player, SkillDifficulty difficulty)
 	{		
-		if(this.lock || this.current >= 100 || this.unlearn) return 0;
-		
 		double chance = getChance(difficulty);
-		System.out.println("Chance to Mine:"+ (chance*100)+"%");
-	
 		this.success = this.getSuccess(difficulty, chance);
-		
+		return calculateGain(player, success, chance);
+	}
+	/**
+	 * This will calculate if the player gains a skill point based off random chance with success and chance
+	 * 
+	 * @param player
+	 * @param success
+	 * @param chance
+	 * @return
+	 */
+	public double calculateGain(EntityPlayer player, int success , double chance)
+	{
+		if(this.lock || this.current >= this.max || this.unlearn) return 0;
 		
 		int totalcap = SKSettings.totalSkillCap;
 		float gainfactor = SKSettings.gainFactor;
 		float failurefactor = SKSettings.failure_factor;
 		float total = SkillTrackerData.getTotalSkillPoints(player);
-		
-		
-		System.out.println("totalcap:"+ totalcap + " totalskillpoints:" + total +" gainfactor:"+ gainfactor + " failure:"+ failurefactor);
-		System.out.println("maxskill:"+ this.max + " curentskill:"+ this.current);
 		
 		double formula = ((totalcap-total) / totalcap / 4 + (this.max - this.current) / this.max / 4 + ((1.0 - chance) * (success +(1-success) * failurefactor)) / 2) * gainfactor;
 		
@@ -188,6 +155,7 @@ public abstract class SkillTreeBase
 		this.current = MathHelper.round(this.current, 2);
 		return formula;
 	}
+
 	// This is only for 
 	public double DebugFormula(EntityPlayer player,double chance, SkillDifficulty difficulty , int success)
 	{
@@ -254,9 +222,9 @@ public abstract class SkillTreeBase
 	 * @param bonus
 	 * @return
 	 */	
-	public boolean getMinLvl(SkillDifficulty skdiff)
+	public boolean hasMinLvl(SkillDifficulty skdiff)
 	{
-		return getMinLvl(skdiff,0);
+		return hasMinLvl(skdiff,0);
 	}
 	/**
 	 * Returns min lvl to use skill
@@ -264,14 +232,15 @@ public abstract class SkillTreeBase
 	 * @param bonus
 	 * @return
 	 */
-	public boolean getMinLvl(SkillDifficulty skdiff,int bonus)
+	public int getMinLvl(SkillDifficulty skdiff,int bonus)
 	{
-		//Bonus will be armors.
-		//int bonus = 0;
-		
 		int minlevel = (int) (skdiff.difficulty - bonus);
-		
-		return minlevel <= this.current ? true : false;
+		return minlevel;
+	}
+	
+	public boolean hasMinLvl(SkillDifficulty skdiff,int bonus)
+	{
+		return (getMinLvl(skdiff, bonus) <= this.current);
 	}
 	
 	
@@ -321,6 +290,13 @@ public abstract class SkillTreeBase
 	{
 		return (float) (((this.current - startAt)/forEach)*gainAmt);
 	}
+	
 	public abstract void onEvent(Object event);
+
+	public boolean hasLvlUp(double prelvl) 
+	{
+		long preParti = (long) prelvl + 1;
+		return this.current >= preParti;
+	}
 
 }

@@ -44,13 +44,13 @@ public class FishingSkill extends SkillTreeBase
 		switch (cat)
 		{
 			case FISH:
-				this.calculateGainNoDiff(player, 1);	
+				this.calculateGain(player, 1);	
 				break;
 			case JUNK:
-				this.calculateGainNoDiff(player, 0);
+				this.calculateGain(player, 0);
 				break;
 			case TREASURE:
-				this.calculateGainNoDiff(player, 1);
+				this.calculateGain(player, 1);
 				break;
 			default:
 				break;

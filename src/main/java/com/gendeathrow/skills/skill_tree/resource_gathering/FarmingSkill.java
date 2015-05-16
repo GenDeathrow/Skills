@@ -179,7 +179,7 @@ public class FarmingSkill extends SkillTreeBase
 		
 		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
 		
-		if(!this.getMinLvl(useHoe)) return;
+		if(!this.hasMinLvl(useHoe)) return;
 		
 		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
 		
@@ -210,7 +210,7 @@ public class FarmingSkill extends SkillTreeBase
 	{
 		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
 		
-		if(!this.getMinLvl(bonemeal)) return;
+		if(!this.hasMinLvl(bonemeal)) return;
 		
 		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
 		
@@ -243,7 +243,7 @@ public class FarmingSkill extends SkillTreeBase
 		
 		
 		
-		if(!this.getMinLvl(harvest)) return;
+		if(!this.hasMinLvl(harvest)) return;
 		
 		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
 		

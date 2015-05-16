@@ -7,7 +7,7 @@ import com.gendeathrow.skills.common.SkillDifficulty;
 public class SKSettings 
 {
 
-	public static int totalSkillCap = 720;
+	public static int totalSkillCap = 400;
 	public static float gainFactor = 1;
 	public static float failure_factor = 0.2F;
 	

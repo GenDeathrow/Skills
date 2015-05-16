@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 public class Skillz
 {
 	    public static final String MODID = "skillz";
-	    public static final String VERSION = "0.0.7";
+	    public static final String VERSION = "0.0.10";
 	    public static final String Name = "Skillz";
 	    public static final String Proxy = "com.gendeathrow.skills.core.proxies";
 	    public static final String Channel = "SZ_GenD";
