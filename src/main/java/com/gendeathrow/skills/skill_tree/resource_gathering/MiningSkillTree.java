@@ -1,12 +1,11 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
-import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import akka.actor.FSM.State;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
@@ -15,11 +14,7 @@ public class MiningSkillTree extends SkillTreeBase
 {
 	
 	BlockPos lastblock;
-	
-	public MiningSkillTree()
-	{
-		super();
-	}
+
 	
 
 	@Override
@@ -90,6 +85,6 @@ public class MiningSkillTree extends SkillTreeBase
 		
 		int meta = event.state.getBlock().getMetaFromState(event.state);
 	
-		this.calcuateGain(event.getPlayer(), difficulty);
+		this.calculateGain(event.getPlayer(), difficulty);
 	}
 }

@@ -1,10 +1,15 @@
 package com.gendeathrow.skills.skill_tree.helper;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
 import com.gendeathrow.skills.common.SkillTrackerData;
@@ -21,6 +26,7 @@ public abstract class SkillTreeBase
 	protected int success;
 	public boolean markSave;
 	protected boolean suspendGain;
+	protected EntityPlayer trackedEntity;
 
 	public SkillTreeBase() {
 
@@ -32,6 +38,7 @@ public abstract class SkillTreeBase
 		this.success = 0;
 		this.markSave = false;
 		this.suspendGain = false;
+		//this.trackedEntity = trackedEntity;
 	}
 
 	public abstract String getLocName();
@@ -41,7 +48,11 @@ public abstract class SkillTreeBase
 	public abstract String getCat();
 
 	public abstract String getDescription();
-	
+
+	/**
+	 * will return true if marked to save, but will reset markedSave to false
+	 * @return
+	 */
 	public boolean markedDirty()
 	{
 		boolean bool = this.markSave;
@@ -49,27 +60,29 @@ public abstract class SkillTreeBase
 		return bool;
 	}
 	
-	private void markDirty()
+	/**
+	 * Mark this for saving
+	 */
+	private void markDirty(){this.markSave = true;}
+
+	/** 
+	 * returns current skill level
+	 * @return
+	 */
+	public float getSkillLevel(){return this.current;}
+
+	public void increaseSkill(double value) 
 	{
-		this.markSave = true;
-	}
-
-	public float getSkillLevel() {
-		return this.current;
-	}
-
-	public void increaseSkill(double value) {
 		this.current += value;
-		
-
-		if (this.current > 100)
+		if (this.current > this.max)
 		{
-			this.current = 100;
+			this.current = this.max;
 		}
 		this.markSave = true;
 	}
 
-	public void decreaseSkill(double value) {
+	public void decreaseSkill(double value) 
+	{
 		this.current -= value;
 		if (this.current < 0) 
 		{
@@ -78,14 +91,37 @@ public abstract class SkillTreeBase
 		this.markSave = true;
 	}
 	
+	/** 
+	 * Returns if Skill is locked
+	 * @return
+	 */
 	public boolean isLocked()
 	{
 		return this.lock;
 	}
 	
-	public void calculateGain(EntityPlayer player, int success)
+	/**
+	 * This will calculate if the player gains a skill point based off random chance with success and chance
+	 * 
+	 * @param player
+	 * @param success
+	 * @param chance
+	 * @return
+	 */
+	public double calculateGainNoDiff(EntityPlayer player, int success)
 	{
-		float chance = .5f;
+		return calculateGainNoDiff(player, success , .5f);
+	}
+	/**
+	 * This will calculate if the player gains a skill point based off random chance with success and chance
+	 * 
+	 * @param player
+	 * @param success
+	 * @param chance
+	 * @return
+	 */
+	public double calculateGainNoDiff(EntityPlayer player, int success , float chance)
+	{
 		int totalcap = SKSettings.totalSkillCap;
 		float gainfactor = SKSettings.gainFactor;
 		float failurefactor = SKSettings.failure_factor;
@@ -107,12 +143,17 @@ public abstract class SkillTreeBase
 		}
 		
 		this.current = MathHelper.round(this.current, 2);
-		
+		return formula;
 	}
-	
-	public void calcuateGain(EntityPlayer player,SkillDifficulty difficulty)
+	/**
+ 	 * This will calculate if the player gains a skill point based off random chance with success and chance
+	 * @param player
+	 * @param difficulty (Skill Difficulty)
+	 * @return
+	 */
+	public double calculateGain(EntityPlayer player,SkillDifficulty difficulty)
 	{		
-		if(this.lock || this.current >= 100 || this.unlearn) return;
+		if(this.lock || this.current >= 100 || this.unlearn) return 0;
 		
 		double chance = getChance(difficulty);
 		System.out.println("Chance to Mine:"+ (chance*100)+"%");
@@ -145,8 +186,9 @@ public abstract class SkillTreeBase
 		}
 		
 		this.current = MathHelper.round(this.current, 2);
+		return formula;
 	}
-	
+	// This is only for 
 	public double DebugFormula(EntityPlayer player,double chance, SkillDifficulty difficulty , int success)
 	{
 		
@@ -164,6 +206,11 @@ public abstract class SkillTreeBase
 		return formula;
 	}
 	
+	/**
+	 * Will get a chance to mine based on skill Difficulty
+	 * @param skdiff
+	 * @return
+	 */
 	public double getChance(SkillDifficulty skdiff)
 	{
 		
@@ -177,6 +224,12 @@ public abstract class SkillTreeBase
 		return chance;
 	}
 	
+	/**
+	 * Will give a success or fail on using current skill based of a chance and difficulty
+	 * @param skdiff
+	 * @param chance
+	 * @return
+	 */
 	public int getSuccess(SkillDifficulty skdiff, double chance)
 	{
 		
@@ -195,10 +248,26 @@ public abstract class SkillTreeBase
 		return success;
 	}
 	
+	/**
+	 * Returns min lvl to use skill
+	 * @param skdiff
+	 * @param bonus
+	 * @return
+	 */	
 	public boolean getMinLvl(SkillDifficulty skdiff)
 	{
+		return getMinLvl(skdiff,0);
+	}
+	/**
+	 * Returns min lvl to use skill
+	 * @param skdiff
+	 * @param bonus
+	 * @return
+	 */
+	public boolean getMinLvl(SkillDifficulty skdiff,int bonus)
+	{
 		//Bonus will be armors.
-		int bonus = 0;
+		//int bonus = 0;
 		
 		int minlevel = (int) (skdiff.difficulty - bonus);
 		
@@ -224,55 +293,34 @@ public abstract class SkillTreeBase
 	{
 		return SkillDifficulty.hasBlockDifficulty(block.getUnlocalizedName(), this.getULN()); 
 	}
+	
+	public void doBonusDrops(HarvestDropsEvent event, float dropChance)
+	{
+		
+		List<ItemStack> dropList = new ArrayList();
+		System.out.println("DropListB:"+ event.drops.size());
+		
+		Iterator<ItemStack> it = event.drops.iterator();
+		Random rand = new Random();
+		ItemStack item;
+		while(it.hasNext())
+		{
+			item = it.next();
+			System.out.println("increase items:"+ item.getDisplayName());
+			if(rand.nextFloat() < dropChance)
+			{
+				dropList.add(item.copy());
+			}
+		}
+		event.drops.addAll(dropList);
+		System.out.println("DropListA:"+ event.drops.size());
 
+	}
+
+	public float getBonusFactor(int startAt, int forEach, double gainAmt)
+	{
+		return (float) (((this.current - startAt)/forEach)*gainAmt);
+	}
 	public abstract void onEvent(Object event);
-	/*
-	public void onAnvilRepair(AnvilRepairEvent event) {
-	}
 
-	public void onBoneMealUse(BonemealEvent event) {
-	}
-
-	public void onAttackEntity(AttackEntityEvent event) {
-	}
-
-	public void onInteractWitEntity(EntityInteractEvent event) {
-	}
-
-	public void onHarvest(PlayerEvent.HarvestCheck event) {
-	}
-
-	public void BreakSpeed(PlayerEvent.BreakSpeed event) {
-	}
-
-	public void onInteract(PlayerInteractEvent event) {
-	}
-
-	public void onItemUse(PlayerUseItemEvent event) {
-	}
-
-	public void onUseHoe(UseHoeEvent event) {
-	}
-
-	public void onLivingAttack(LivingAttackEvent event) {
-	}
-
-	public void onFall(LivingFallEvent event) {
-	}
-
-	public void onPotionBrewPre(PotionBrewEvent.Pre event) {
-	}
-
-	public void onPotionBrewPost(PotionBrewEvent.Post event) {
-	}
-
-	public void onBlockBreak(BlockEvent.BreakEvent event) {
-	}
-
-	public void onBlockHarvest(BlockEvent.HarvestDropsEvent event) {
-	}
-
-	public void onBlockPlaced(BlockEvent.PlaceEvent event) {
-	}
-	*/
 }

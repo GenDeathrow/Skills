@@ -9,6 +9,7 @@ import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 public class FishingSkill extends SkillTreeBase
 {
 
+
 	@Override
 	public String getLocName() 
 	{
@@ -43,13 +44,13 @@ public class FishingSkill extends SkillTreeBase
 		switch (cat)
 		{
 			case FISH:
-				this.calculateGain(player, 1);	
+				this.calculateGainNoDiff(player, 1);	
 				break;
 			case JUNK:
-				this.calculateGain(player, 0);
+				this.calculateGainNoDiff(player, 0);
 				break;
 			case TREASURE:
-				this.calculateGain(player, 1);
+				this.calculateGainNoDiff(player, 1);
 				break;
 			default:
 				break;

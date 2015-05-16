@@ -8,11 +8,11 @@ import java.util.Random;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -149,24 +149,7 @@ public class FarmingSkill extends SkillTreeBase
 				newEvent.dropChance = .5F;
 			}
 			else{
-				List<ItemStack> dropList = new ArrayList();
-				System.out.println("DropListB:"+ newEvent.drops.size());
-				
-				Iterator<ItemStack> it = newEvent.drops.iterator();
-
-				ItemStack item;
-				while(it.hasNext())
-				{
-					item = it.next();
-					System.out.println("increase items:"+ item.getDisplayName());
-					dropList.add(item.copy());
-				}
-				 newEvent.drops.addAll(dropList);
-				System.out.println("DropListA:"+ newEvent.drops.size());
-
-				
-
-				
+				this.doBonusDrops(newEvent, .5f);	
 			}
 		}else if(event instanceof PlayerEvent.HarvestCheck)
 		{
@@ -214,7 +197,7 @@ public class FarmingSkill extends SkillTreeBase
 			this.suspendGain = true;
 		}
 		
-		this.calcuateGain(event.entityPlayer, useHoe);
+		this.calculateGain(event.entityPlayer, useHoe);
 		
 		if(this.success == 0)
 		{
@@ -245,7 +228,7 @@ public class FarmingSkill extends SkillTreeBase
 			this.suspendGain = true;
 		}
 		
-		this.calcuateGain(event.entityPlayer, bonemeal);
+		this.calculateGain(event.entityPlayer, bonemeal);
 		
 		if(this.success == 0)
 		{
@@ -278,7 +261,7 @@ public class FarmingSkill extends SkillTreeBase
 			this.suspendGain = true;
 		}
 		
-		this.calcuateGain(event.getPlayer(), harvest);
+		this.calculateGain(event.getPlayer(), harvest);
 		
 		if(this.success == 0)
 		{

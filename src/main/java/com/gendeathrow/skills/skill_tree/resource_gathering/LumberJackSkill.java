@@ -1,6 +1,6 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
-import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -12,6 +12,8 @@ import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class LumberJackSkill extends SkillTreeBase
 {
+
+
 
 	BlockPos lastblock;
 	
@@ -83,6 +85,6 @@ public class LumberJackSkill extends SkillTreeBase
 		if(difficulty == null) return;		
 		System.out.println("Block Difficulty:"+ difficulty.difficulty);
 	
-		this.calcuateGain(event.getPlayer(), difficulty);
+		this.calculateGain(event.getPlayer(), difficulty);
 	}
 }

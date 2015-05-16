@@ -32,22 +32,22 @@ public class EventHandler
 		if(event.entity instanceof SK_FishHook)
 		{	
 			
-			if(event.world.isRemote)
-			{
-				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
-				if(angler != null)
-				{
-					System.out.println(angler.getName() +"<<< created Client");
-				}
-			}
-			else
-			{
-				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
-				if(angler != null)
-				{
-					System.out.println(angler.getName() +"<<< created Server");
-				}
-			}
+//			if(event.world.isRemote)
+//			{
+//				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
+//				if(angler != null)
+//				{
+//					System.out.println(angler.getName() +"<<< created Client");
+//				}
+//			}
+//			else
+//			{
+//				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
+//				if(angler != null)
+//				{
+//					System.out.println(angler.getName() +"<<< created Server");
+//				}
+//			}
 //			
 //	        if (!event.world.isRemote)
 //	        {
