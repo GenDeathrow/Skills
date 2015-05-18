@@ -51,7 +51,7 @@ public class CommonProxy {
 
 	public void registerTickHandlers() 
 	{
-		FMLCommonHandler.instance().bus().register(new ServerTick());
+		//FMLCommonHandler.instance().bus().register(new ServerTick());
 			
 	}
 

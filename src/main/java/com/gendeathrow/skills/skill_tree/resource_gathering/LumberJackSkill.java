@@ -1,20 +1,21 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class LumberJackSkill extends SkillTreeBase
 {
 
 
-
+	Boolean noDrops;
 	BlockPos lastblock;
 	
 	@Override
@@ -47,44 +48,71 @@ public class LumberJackSkill extends SkillTreeBase
 		if(event instanceof PlayerEvent.BreakSpeed)
 		{
 			PlayerEvent.BreakSpeed newevent = (PlayerEvent.BreakSpeed)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 			
-			float bonusSpeed = (float) (((this.current - 50)/10)*.05);
+			float bonusSpeed = this.getBonusFactor(50, 10, .05);
 			bonusSpeed = bonusSpeed < 0 ? 0 : bonusSpeed;
 			newevent.newSpeed += bonusSpeed;		
 		}else if(event instanceof BlockEvent.BreakEvent)
 		{
 			BlockEvent.BreakEvent newevent = (BlockEvent.BreakEvent)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 			
-			this.lastblock = newevent.pos;
-			this.doBlockBreak(newevent);
-		
+				this.lastblock = newevent.pos;
+				this.doBlockBreak(newevent);
+
 		}
 		else if(event instanceof BlockEvent.HarvestDropsEvent)
 		{
 			BlockEvent.HarvestDropsEvent newevent = (BlockEvent.HarvestDropsEvent)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 		
 			BlockPos pos = newevent.pos;
 			if(this.success == 0 && pos == this.lastblock)
 			{
 				newevent.dropChance = 0f;
 			}
-			
-			float bonusDrops = (float) (((this.current - 70)/10)*.05);
-			bonusDrops = bonusDrops < 0 ? 0 : bonusDrops;
+			else if(this.getSkillLevel() >= 70)
+			{
+				float bonusDrops = this.getBonusFactor(70, 10, .05);
+				bonusDrops = bonusDrops < 0 ? 0 : bonusDrops;
+				this.doBonusDrops(newevent, bonusDrops);
+			}
 		}
+	}
+	
+
+	private double getChanceNoDiff(EntityPlayer player)
+	{
+		ItemStack inhand = player.getHeldItem();
+		
+		
+		
+		double toolModifirer = getToolModifirer(inhand);
+		double skModifier = this.getBonusFactor(50, 2, .01);
+		double chance = .5 + skModifier + toolModifirer;
+		
+		System.out.println("LumberJacking Chace:"+ chance +" (Tool:"+ toolModifirer +")(SkillMod:"+skModifier+")");
+		return chance;
+	}
+	
+	// Move to another area
+	private double getToolModifirer(ItemStack heldItem)
+	{
+		if(heldItem == null) return -0.08D;
+		else if(heldItem.getItem() == Items.wooden_axe) return -0.06D;
+		else if(heldItem.getItem() == Items.stone_axe) return -0.04D;
+		else if(heldItem.getItem() == Items.iron_axe) return 0D;
+		else if(heldItem.getItem() == Items.golden_axe) return 0.04D;
+		else if(heldItem.getItem() == Items.diamond_axe) return 0.06D;
+		else return -0.08;
 	}
 
 	private void doBlockBreak(BreakEvent event)
 	{
 		String id = event.state.getBlock().getUnlocalizedName();
-		System.out.println("Block Name:"+ id);
-		SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(id);
-		if(difficulty == null) return;		
-		System.out.println("Block Difficulty:"+ difficulty.difficulty);
-	
-		this.calculateGain(event.getPlayer(), difficulty);
+
+		this.getSuccess(getChanceNoDiff(event.getPlayer()));
+		this.calculateGain(event.getPlayer(), this.success);
 	}
 }

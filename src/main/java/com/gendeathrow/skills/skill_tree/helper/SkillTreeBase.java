@@ -5,12 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
@@ -117,7 +115,7 @@ public abstract class SkillTreeBase
 	public double calculateGain(EntityPlayer player, SkillDifficulty difficulty)
 	{		
 		double chance = getChance(difficulty);
-		this.success = this.getSuccess(difficulty, chance);
+		this.success = this.getSuccess(chance);
 		return calculateGain(player, success, chance);
 	}
 	/**
@@ -198,7 +196,7 @@ public abstract class SkillTreeBase
 	 * @param chance
 	 * @return
 	 */
-	public int getSuccess(SkillDifficulty skdiff, double chance)
+	public int getSuccess(double chance)
 	{
 		
 		int success = 0;
@@ -213,6 +211,7 @@ public abstract class SkillTreeBase
 			success = 1;
 		}
 		else System.out.println("Lost Materials");
+		this.success = success;
 		return success;
 	}
 	
@@ -258,9 +257,9 @@ public abstract class SkillTreeBase
 		nbt.setBoolean("unlearn", this.unlearn);
 	}
 	
-	public boolean isCorrectSkill(Block block)
+	public boolean isCorrectSkill(IBlockState state)
 	{
-		return SkillDifficulty.hasBlockDifficulty(block.getUnlocalizedName(), this.getULN()); 
+		return SkillDifficulty.hasBlockDifficulty(state, this.getULN()); 
 	}
 	
 	public void doBonusDrops(HarvestDropsEvent event, float dropChance)

@@ -48,12 +48,12 @@ public class MiningSkillTree extends SkillTreeBase
 		if(event instanceof PlayerEvent.BreakSpeed)
 		{
 			PlayerEvent.BreakSpeed newevent = (PlayerEvent.BreakSpeed)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 						
 			float bonusSpeed = this.getBonusFactor(50, 10, .05);
 			bonusSpeed = bonusSpeed < 0 ? 0 : bonusSpeed;
 			
-			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state.getBlock());
+			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state);
 			if(difficulty == null) return;	
 			
 			int miningBonus = 0;
@@ -71,9 +71,9 @@ public class MiningSkillTree extends SkillTreeBase
 		}else if(event instanceof BlockEvent.BreakEvent)
 		{
 			BlockEvent.BreakEvent newevent = (BlockEvent.BreakEvent)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 
-			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state.getBlock());
+			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state);
 			if(difficulty == null) return;	
 
 			int miningBonus = 0;
@@ -92,7 +92,7 @@ public class MiningSkillTree extends SkillTreeBase
 		else if(event instanceof BlockEvent.HarvestDropsEvent)
 		{
 			BlockEvent.HarvestDropsEvent newevent = (BlockEvent.HarvestDropsEvent)event;
-			if(!this.isCorrectSkill(newevent.state.getBlock())) return;
+			if(!this.isCorrectSkill(newevent.state)) return;
 			
 			BlockPos pos = newevent.pos;
 			if((this.success == 0 && pos == this.lastblock) || this.noDrops == true)
@@ -114,7 +114,7 @@ public class MiningSkillTree extends SkillTreeBase
 				 }
 			 }
 			
-			if(flag)
+			if(flag && this.getSkillLevel() >= 70)
 			{
 				float bonusDropChance = this.getBonusFactor(70, 10, .05);
 				bonusDropChance = bonusDropChance < 0 ? 0 : bonusDropChance;
@@ -126,7 +126,7 @@ public class MiningSkillTree extends SkillTreeBase
 
 	private void doBlockBreak(BreakEvent event)
 	{
-		SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(event.state.getBlock());
+		SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(event.state);
 		if(difficulty == null) return;		
 		//TODO match meta data
 		int meta = event.state.getBlock().getMetaFromState(event.state);

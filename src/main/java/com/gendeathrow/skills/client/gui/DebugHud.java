@@ -51,9 +51,9 @@ public class DebugHud
 			ScaledResolution res = event.resolution;			
 			SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
 			
-			if(SkillDifficulty.hasBlockDifficulty(lookingAt.getBlock().getUnlocalizedName()) && tracker != null)
+			if(SkillDifficulty.hasBlockDifficulty(lookingAt) && tracker != null)
 			{
-				SkillDifficulty skdiff = SkillDifficulty.getBlockDifficulty(lookingAt.getBlock().getUnlocalizedName());
+				SkillDifficulty skdiff = SkillDifficulty.getBlockDifficulty(lookingAt);
 				if(skdiff == null) return;
 				
 				SkillTreeBase skill = tracker.GetSkillByID(skdiff.skillType);

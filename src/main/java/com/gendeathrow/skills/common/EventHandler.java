@@ -24,43 +24,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.entity.SK_FishHook;
 
-public class EventHandler 
+public class EventHandler
 {
 	@SubscribeEvent
 	public void onPlayerEnterWorld(EntityJoinWorldEvent event) throws InstantiationException, ReflectiveOperationException, Exception, Throwable
 	{
-		if(event.entity instanceof SK_FishHook)
-		{	
-			
-//			if(event.world.isRemote)
-//			{
-//				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
-//				if(angler != null)
-//				{
-//					System.out.println(angler.getName() +"<<< created Client");
-//				}
-//			}
-//			else
-//			{
-//				EntityPlayer angler = ((SK_FishHook) event.entity).angler;
-//				if(angler != null)
-//				{
-//					System.out.println(angler.getName() +"<<< created Server");
-//				}
-//			}
-//			
-//	        if (!event.world.isRemote)
-//	        {
-//				if(angler == null) return;
-//				
-//				System.out.println(angler.getName()+"->angler");
-//				//event.world.removeEntity(fishing);
-//	        	event.world.spawnEntityInWorld(new SK_FishHook(event.world, angler));
-//	        	
-//				event.setCanceled(true);
-
-	       // }
-		}
 		if(event.entity instanceof EntityPlayerMP)
 		{
 			System.out.println("Player is an Entity Player");
