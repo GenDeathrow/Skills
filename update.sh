@@ -3,7 +3,7 @@
 ########################################
 
 #Get build type
-buildtype=$(grep -oP "<build>(.*)</build>" config.xml | cut -d '>' -f 2 | cut -d '<' -f 1)
+#buildtype=$(grep -oP "<build>(.*)</build>" config.xml | cut -d '>' -f 2 | cut -d '<' -f 1)
 
 mkdir -p ./wiki
 cd ./wiki
@@ -13,6 +13,7 @@ git clone git@github.com:GenDeathrow/Skills.wiki.git ./
 
 #Get Current Version from Github
 curversion=$(grep -oP "<${build_text}>(.*)</${build_text}>" Version_Info.md | cut -d '>' -f 2 | cut -d '<' -f 1)
+buildtype=$(grep -oP "<build>(.*)</build>" Version_Info.md | cut -d '>' -f 2 | cut -d '<' -f 1)
 
 cd ../
 
@@ -43,7 +44,7 @@ grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_tex
 #grep -lR -e "<${build_text}>.*</${build_text}>" * | xargs sed -i "s/<${build_text}>.*<\/${build_text}>/<${build_text}>$ver_num<\/${build_text}>/g"
 
 #Replace old date with new one
-#grep -lR -e "<${date_text}>.*</${date_text}>" * | xargs sed -i "s/<${date_text}>.*<\/${date_text}>/<${date_text}>${cur_date}<\/${date_text}>/g"
+grep -lR -e "<${date_text}>.*</${date_text}>" * | xargs sed -i "s/<${date_text}>.*<\/${date_text}>/<${date_text}>${cur_date}<\/${date_text}>/g"
 
 #Replace old download link with new one
 #grep -lR -e "\[downloads\-1\.7\]:.*" * | xargs sed -i "s/\[downloads\-1\.7\]:.*/\[downloads\-1\.7\]: ${download_link}/g"

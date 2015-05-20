@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+##############################################################################
+##
+##  Changelog creation script for use with Git Shell & Drone.io
+##  Created by Funwayguy for AutoBuild 1.0.x
+##	Edited by GenDeathrow
+##############################################################################
+
+
+
+# Start writing full changelog
+echo "----- Full Changelog (1.8) -----" > full_changelog.txt
+echo "NOTE: Changlog does not account for failed builds!" >> full_changelog.txt
+echo "Version numbers may be inaccurate where builds have failed." >> full_changelog.txt
+echo "" >> full_changelog.txt
+
+
