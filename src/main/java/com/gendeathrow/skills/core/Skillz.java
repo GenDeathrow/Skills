@@ -24,12 +24,14 @@ import org.apache.logging.log4j.Logger;
 public class Skillz
 {
 	    public static final String MODID = "skillz";
-	    public static final String VERSION = "0.0.11";
+	    public static final String VERSION = "GD_SK_VER";
 	    public static final String Name = "Skillz";
 	    public static final String Proxy = "com.gendeathrow.skills.core.proxies";
 	    public static final String Channel = "SZ_GenD";
 	    
 	    public static  Logger log;
+	    
+	    
 	    
 	    @Instance(Skillz.MODID)
 	    public static Skillz instance;
@@ -43,6 +45,8 @@ public class Skillz
 		@EventHandler
 		public void preInit(FMLPreInitializationEvent event)
 		{
+			System.out.println("VERSION:"+ VERSION);
+			
 			log = event.getModLog();
 			
 			proxy.preInit(event);
