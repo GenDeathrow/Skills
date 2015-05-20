@@ -4,16 +4,12 @@
 
 #Get build type
 buildtype=$(grep -oP "<build>(.*)</build>" config.xml | cut -d '>' -f 2 | cut -d '<' -f 1)
-echo $buildtype
 
 mkdir -p ./wiki
 cd ./wiki
 
 # Clone wiki https://github.com/GenDeathrow/Skills.wiki.git
 git clone git@github.com:GenDeathrow/Skills.wiki.git ./
-git ls-files
-
-ls
 
 #Get Current Version from Github
 #curversion=$(grep -oP "<${build_text}>(.*)</${build_text}>" Version_Info.md | cut -d '>' -f 2 | cut -d '<' -f 1)
@@ -21,26 +17,26 @@ ls
 cd ../
 
 # Replace with update version in config.xml
-####################grep -lR -e "<version>.*<\/version>" config.xml | xargs sed -i "s/<version>.*<\/version>/<version>${curversion}<\/version>/g"
+grep -lR -e "<version>.*<\/version>" config.xml | xargs sed -i "s/<version>.*<\/version>/<version>${curversion}<\/version>/g"
 
 # Increment Version Number 
-########################eval ./gradlew -q ${buildtype}
+eval ./gradlew -q ${buildtype}
 
 #Get new Version number
-###################################newversion=$(grep -oP "<version>(.*)</version>" config.xml | cut -d '>' -f 2 | cut -d '<' -f 1)
+newversion=$(grep -oP "<version>(.*)</version>" config.xml | cut -d '>' -f 2 | cut -d '<' -f 1)
 
 #Replace all ver keys with new Number
-###########################################grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
+grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
 
 #Build Forge
-###############################./gradlew clean setupCIWorkSpace build
+./gradlew clean setupCIWorkSpace build
 
 
 #Move back to wiki to update
 cd ./wiki
 
 # Replace with update version in  wiki
-##################################grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_text}>.*<\/${build_text}>/<${build_text}>${newversion}<\/${build_text}>/g"
+grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_text}>.*<\/${build_text}>/<${build_text}>${newversion}<\/${build_text}>/g"
 
 
 #Replace old build with new one
