@@ -12,7 +12,7 @@ cd ./wiki
 git clone git@github.com:GenDeathrow/Skills.wiki.git ./
 
 #Get Current Version from Github
-#curversion=$(grep -oP "<${build_text}>(.*)</${build_text}>" Version_Info.md | cut -d '>' -f 2 | cut -d '<' -f 1)
+curversion=$(grep -oP "<${build_text}>(.*)</${build_text}>" Version_Info.md | cut -d '>' -f 2 | cut -d '<' -f 1)
 
 cd ../
 
