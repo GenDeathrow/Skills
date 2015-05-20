@@ -39,7 +39,7 @@ cd ./wiki
 # Replace with update version in  wiki
 grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_text}>.*<\/${build_text}>/<${build_text}>${newversion}<\/${build_text}>/g"
 
-grep -lR -e "<build>.*</build>" *| xargs sed -i "s/<build>.*</build>/<build>Patch</build>/g"
+grep -lR -e "<build>.*<\/build>" *| xargs sed -i "s/<build>.*<\/build>/<build>Patch<\/build>/g"
 
 
 #Replace old build with new one
