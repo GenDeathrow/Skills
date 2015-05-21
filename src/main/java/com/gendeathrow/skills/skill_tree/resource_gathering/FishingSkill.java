@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.FishingHooks.FishableCategory;
 
+import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class FishingSkill extends SkillTreeBase
@@ -16,9 +17,9 @@ public class FishingSkill extends SkillTreeBase
 	 */
 	
 	
-	public FishingSkill()
+	public FishingSkill(SkillTrackerData tracker)
 	{
-		super();
+		super(tracker);
 		this.setGain(.2);
 	}
 

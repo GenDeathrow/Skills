@@ -11,12 +11,19 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.utils.ChatHelper;
 
 public class MiningSkillTree extends SkillTreeBase
 {
 	
+	public MiningSkillTree(SkillTrackerData tracker)
+	{
+		super(tracker);
+	}
+
+
 	BlockPos lastblock;
 
 	private boolean noDrops;

@@ -26,8 +26,9 @@ public abstract class SkillTreeBase
 	protected int success;
 	public boolean markSave;
 	protected boolean suspendGain;
+	public SkillTrackerData tracker;
 
-	public SkillTreeBase() {
+	public SkillTreeBase(SkillTrackerData tracker) {
 
 		this.current = 0;
 		this.max = 100;
@@ -37,6 +38,7 @@ public abstract class SkillTreeBase
 		this.success = 0;
 		this.markSave = false;
 		this.suspendGain = false;
+		this.tracker = tracker;
 	}
 
 	public abstract String getLocName();
@@ -142,7 +144,7 @@ public abstract class SkillTreeBase
 	public double calculateGain(EntityPlayer player, int success , double chance)
 	{
 		if(this.lock || this.current >= this.max || this.unlearn) return 0;
-		
+				
 		int totalcap = SKSettings.totalSkillCap;
 		float gainfactor = SKSettings.gainFactor;
 		float failurefactor = SKSettings.failure_factor;

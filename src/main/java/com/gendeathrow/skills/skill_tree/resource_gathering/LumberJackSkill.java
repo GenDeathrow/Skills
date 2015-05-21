@@ -9,11 +9,17 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
+import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class LumberJackSkill extends SkillTreeBase
 {
 
+
+	public LumberJackSkill(SkillTrackerData tracker)
+	{
+		super(tracker);
+	}
 
 	Boolean noDrops;
 	BlockPos lastblock;

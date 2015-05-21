@@ -1,16 +1,12 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -23,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
 public class FarmingSkill extends SkillTreeBase
@@ -40,9 +37,9 @@ public class FarmingSkill extends SkillTreeBase
 	@SideOnly(Side.CLIENT)
 	private ArrayList hoeUsed = new ArrayList();
 	
-	public FarmingSkill()
+	public FarmingSkill(SkillTrackerData tracker)
 	{
-		super();
+		super(tracker);
 		this.lastGain = 0;
 		this.hoeWait = 5000;
 		this.canGain = true;

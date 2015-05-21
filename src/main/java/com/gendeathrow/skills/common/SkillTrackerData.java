@@ -36,8 +36,8 @@ public class SkillTrackerData
 		{
 			Class clazz = it.next().getValue();
 			//clzz = SkillList.
-			Constructor<?> ctor = clazz.getConstructor();
-			SkillTreeBase object = (SkillTreeBase)ctor.newInstance();
+			Constructor<SkillTreeBase> ctor = clazz.getConstructor(SkillTrackerData.class);
+			SkillTreeBase object = (SkillTreeBase)ctor.newInstance(this);
 			
 			this.PlayerSkills.add(object);
 		}
