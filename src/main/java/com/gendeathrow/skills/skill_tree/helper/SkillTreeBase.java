@@ -26,7 +26,6 @@ public abstract class SkillTreeBase
 	protected int success;
 	public boolean markSave;
 	protected boolean suspendGain;
-	protected EntityPlayer trackedEntity;
 
 	public SkillTreeBase() {
 
@@ -38,7 +37,6 @@ public abstract class SkillTreeBase
 		this.success = 0;
 		this.markSave = false;
 		this.suspendGain = false;
-		//this.trackedEntity = trackedEntity;
 	}
 
 	public abstract String getLocName();
@@ -48,6 +46,16 @@ public abstract class SkillTreeBase
 	public abstract String getCat();
 
 	public abstract String getDescription();
+	
+	public double randomGain(double rangeMin, double rangeMax)
+	{
+		double value;
+		
+		Random randomGenerator = new Random();
+		value = rangeMin + (rangeMax - rangeMin) * randomGenerator.nextDouble();
+
+		return value;
+	}
 
 	/**
 	 * will return true if marked to save, but will reset markedSave to false
@@ -89,6 +97,11 @@ public abstract class SkillTreeBase
 			this.current = 0;
 		}
 		this.markSave = true;
+	}
+	
+	public void setGain(double newGain)
+	{
+		this.gain = newGain; 
 	}
 	
 	public boolean isLocked(){ return this.lock; }

@@ -1,6 +1,8 @@
 package com.gendeathrow.skills.skill_tree.helper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.gendeathrow.skills.skill_tree.resource_gathering.FarmingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FishingSkill;
@@ -11,6 +13,9 @@ public class SkillTree_Manager
 {
 
 	public final static SkillTree_Manager instance = new SkillTree_Manager();
+	
+	//TODO adding custom tools to be used for specific skills
+	public final static HashMap<String, ArrayList> SkillTree_CustomTools = new HashMap<String, ArrayList>();
 	
 	public HashMap<String,Class<?>> SkillList;
 	

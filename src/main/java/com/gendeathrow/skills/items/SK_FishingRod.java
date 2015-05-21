@@ -1,11 +1,17 @@
 package com.gendeathrow.skills.items;
 
+import java.util.Iterator;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -22,6 +28,8 @@ public class SK_FishingRod extends Item
     private static final String __OBFID = "CL_00000034";
   
     public static Item fishingrod;
+    public static ModelResourceLocation castModel;
+    public static ModelResourceLocation uncastModel;
     
     public SK_FishingRod()
     {
@@ -31,23 +39,63 @@ public class SK_FishingRod extends Item
     }
     public static void init()
     {
-    	fishingrod = new SK_FishingRod().setUnlocalizedName("skfishingrod");
+    	 fishingrod = new SK_FishingRod().setUnlocalizedName("sk_fishing_rod");
+    	
+    	 castModel = new ModelResourceLocation(Skillz.MODID+ ":sk_fishing_rod_cast", "inventory");
+    	 
+    	 System.out.println("Regsiter CastModel"+ castModel.getResourcePath() +"-"+ castModel.getResourceDomain() +"-"+ castModel.getVariant());
+    	 uncastModel = new ModelResourceLocation(Skillz.MODID+ ":sk_fishing_rod", "inventory");
     }
     
     public static void register()
     {
-    	System.out.println(fishingrod.getUnlocalizedName().substring(5) +" -WHAT");
     	GameRegistry.registerItem(fishingrod, fishingrod.getUnlocalizedName().substring(5));
+    	
+    	removeVanillaRecipe();
+    	
+        GameRegistry.addRecipe(new ItemStack(fishingrod, 1), new Object[] {"  #", " #X", "# X", '#', Items.stick, 'X', Items.string});
+
+    	Items.fishing_rod.setCreativeTab(null);
     }
+
     
+    private static void removeVanillaRecipe()
+    {
+    	Iterator craftingList = CraftingManager.getInstance().getRecipeList().iterator();
+    	int index = 0;
+    	while(craftingList.hasNext())
+    	{
+    		Object recipe = craftingList.next();
+    		
+    		if(recipe instanceof ShapedRecipes)
+    		{
+    			ShapedRecipes shapedRecipe = (ShapedRecipes)recipe;
+    			
+    			if(shapedRecipe.getRecipeOutput().getItem() == Items.fishing_rod)
+    			{
+    				
+    				CraftingManager.getInstance().getRecipeList().remove(index);
+    				break;
+    			}
+    			
+    			
+    		}
+    		index++;
+    	}
+    	
+
+    }
     public static void registerRenders()
     {
     	registerRender(fishingrod);
     }
+    
         
     public static void registerRender(Item item)
     {
-    	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(fishingrod, 0, new ModelResourceLocation(Skillz.MODID+ ":"+ fishingrod.getUnlocalizedName().substring(5), "inventory"));
+    	ModelBakery.addVariantName(fishingrod, new String[] {Skillz.MODID + ":sk_fishing_rod", Skillz.MODID + ":sk_fishing_rod_cast"});
+    	//Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(fishingrod, 0, castModel);
+    	Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(fishingrod, 0, uncastModel);
     }
     /**
      * Returns True is the item is renderer in full 3D when hold.
@@ -99,6 +147,27 @@ public class SK_FishingRod extends Item
         return itemStackIn;
     }
 
+	@Override
+	public ModelResourceLocation getModel(ItemStack itemstack, EntityPlayer playerIn, int useRemaining)
+	{
+
+		if(playerIn instanceof EntityPlayer)
+		{
+			SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(playerIn);
+			
+			if(tracker != null)
+			{
+				//System.out.println("tracker not null");
+				if(tracker.fishingEntity != null)
+				{
+					//System.out.println("Cast Model");
+					return new ModelResourceLocation(Skillz.MODID+ ":sk_fishing_rod_cast", "inventory");
+				}
+			}
+		}
+		return null;
+	}
+		
     /**
      * Checks isDamagable and if it cannot be stacked
      */

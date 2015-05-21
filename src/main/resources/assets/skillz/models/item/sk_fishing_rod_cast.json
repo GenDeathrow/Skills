@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "skillz:items/skfishingrod"
+        "layer0": "skillz:items/sk_fishing_rod_cast"
     },
     "display": {
         "thirdperson": {

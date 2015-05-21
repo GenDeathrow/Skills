@@ -85,10 +85,8 @@ public class LumberJackSkill extends SkillTreeBase
 	private double getChanceNoDiff(EntityPlayer player)
 	{
 		ItemStack inhand = player.getHeldItem();
-		
-		
-		
-		double toolModifirer = getToolModifirer(inhand);
+	
+		double toolModifirer = this.getToolModifirer(inhand);
 		double skModifier = this.getBonusFactor(50, 2, .01);
 		double chance = .5 + skModifier + toolModifirer;
 		

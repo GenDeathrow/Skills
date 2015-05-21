@@ -9,6 +9,18 @@ import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 public class FishingSkill extends SkillTreeBase
 {
 
+	/*
+	 * Alot of Code is in Sk_FishHook & SK_FishingHook  
+	 * 
+	 * 
+	 */
+	
+	
+	public FishingSkill()
+	{
+		super();
+		this.setGain(.2);
+	}
 
 	@Override
 	public String getLocName() 
@@ -38,18 +50,27 @@ public class FishingSkill extends SkillTreeBase
 	public void onEvent(Object event) 
 	{}
 
+	@Override
+	public double calculateGain(EntityPlayer player, int success)
+	{
+
+		return super.calculateGain(player, success);
+	}
 	
 	public void CatchEvent(EntityPlayer player, FishableCategory cat)
 	{
 		switch (cat)
 		{
 			case FISH:
-				this.calculateGain(player, 1);	
+				this.setGain(.2);
+				this.calculateGain(player, 1);
 				break;
 			case JUNK:
+				this.setGain(.1);
 				this.calculateGain(player, 0);
 				break;
 			case TREASURE:
+				this.setGain(.4);
 				this.calculateGain(player, 1);
 				break;
 			default:
