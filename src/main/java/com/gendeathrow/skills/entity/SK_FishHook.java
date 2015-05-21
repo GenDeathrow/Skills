@@ -604,12 +604,12 @@ public class SK_FishHook extends Entity implements IEntityAdditionalSpawnData
     private ItemStack getFishingResult()
     {
     	FishingSkill anglerTracker = ((FishingSkill)this.tracker.GetSkillByID("fishing"));
-    	float skill = anglerTracker.getBonusFactor(0, 1, 0.01);
+    	int skill = (int)anglerTracker.getBonusFactor(0, 40, 1);
         float f = this.worldObj.rand.nextFloat();
         int i = EnchantmentHelper.getLuckOfSeaModifier(this.angler);
         int j = EnchantmentHelper.getLureModifier(this.angler);
         
-        i = MathHelper.clamp_float((i + skill), 0.0F, 1.0F);
+        i += skill;
         
         if (true)
         {
