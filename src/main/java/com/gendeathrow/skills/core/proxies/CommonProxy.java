@@ -6,10 +6,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import com.gendeathrow.skills.client.gui.UpdateNotification;
 import com.gendeathrow.skills.common.EventHandler;
-import com.gendeathrow.skills.common.ServerTick;
 import com.gendeathrow.skills.common.SkillDifficulty;
-import com.gendeathrow.skills.handlers.ObjectHandler;
 
 public class CommonProxy {
 
@@ -61,9 +60,9 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(eventManager);
 		FMLCommonHandler.instance().bus().register(eventManager);
 		
-//		UpdateNotification updateManager = new UpdateNotification();
-//		MinecraftForge.EVENT_BUS.register(updateManager);
-//		FMLCommonHandler.instance().bus().register(updateManager);
+		UpdateNotification updateManager = new UpdateNotification();
+		MinecraftForge.EVENT_BUS.register(updateManager);
+		FMLCommonHandler.instance().bus().register(updateManager);
 	}
 	
 	public void registerRenders()

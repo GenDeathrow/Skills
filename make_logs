@@ -16,3 +16,11 @@ echo "Version numbers may be inaccurate where builds have failed." >> full_chang
 echo "" >> full_changelog.txt
 
 
+# Create document for update notice
+echo $ver_num > version.txt
+echo "https://github.com/GenDeathrow/Skills/wiki/Downloads" >> version.txt
+echo. >> version.txt
+git log -1 --pretty=format:"%B" >> version.txt
+
+
+

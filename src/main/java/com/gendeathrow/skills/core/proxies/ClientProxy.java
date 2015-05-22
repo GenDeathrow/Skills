@@ -6,8 +6,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.gendeathrow.skills.client.gui.GuiManager;
 import com.gendeathrow.skills.client.render.renderFishing;
@@ -72,7 +70,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerEventHandlers() {
 
 		MinecraftForge.EVENT_BUS.register(new GuiManager());
-		
+	
 		super.registerEventHandlers();
 	}
 	
