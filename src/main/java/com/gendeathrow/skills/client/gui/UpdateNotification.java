@@ -75,28 +75,16 @@ public class UpdateNotification
 		try
 		{
 			String page = getUrl("http://bit.ly/1R8HQWy", true);
-			
-//			Pattern pattern = Pattern.compile("<version-1.8>(.*)<\\/version-1.8>");
-//			
-//			Matcher matcher = pattern.matcher(page);
-//			
-//			if(matcher.find())
-//			{
-//				version = matcher.group(1);
-//			}
-			
-//			System.out.println("version found = " + version);
-			//version = page.matches("<version-1.8>(.*)</version-1.8>");
-			
+						
 			String[] data = page.split("\\n");
 			
 			String[] rawVer = data[0].trim().split("\\.");
 			version = rawVer[0] + "." + rawVer[1] + "." + rawVer[2];
 			
-//			if(!Skillz.updateCheck)
-//			{
-//				return;
-//			}
+			if(!SKSettings.updateCheck)
+			{
+				return;
+			}
 						
 			String http = data[0].trim();
 			
@@ -104,8 +92,8 @@ public class UpdateNotification
 			
 			if(verStat == -1)
 			{
-				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.enviromine.available", version).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.enviromine.download"));
+				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.skillz.available", version).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.skillz.download"));
 				event.player.addChatMessage(new ChatComponentText("https://github.com/GenDeathrow/Skillz/wiki/Downloads").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.BLUE).setUnderlined(true)));
 				for(int i = 3; i < data.length; i++)
 				{
@@ -120,13 +108,13 @@ public class UpdateNotification
 				}
 			} else if(verStat == 0)
 			{
-				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("updatemsg.enviromine.uptodate", Skillz.VERSION)));
+				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("updatemsg.skillz.uptodate", Skillz.VERSION)));
 			} else if(verStat == 1)
 			{
-				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("updatemsg.enviromine.debug", Skillz.VERSION)));
+				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("updatemsg.skillz.debug", Skillz.VERSION)));
 			} else if(verStat == -2)
 			{
-				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("updatemsg.enviromine.error")));
+				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + StatCollector.translateToLocalFormatted("updatemsg.skillz.error")));
 			}
 			
 		} catch(IOException e)

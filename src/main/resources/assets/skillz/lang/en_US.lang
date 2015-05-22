@@ -1,10 +1,19 @@
 language.name=English
 
+skill.cat.resources=Gathering Resources
 skill.mining.name=Mining
 skill.lumberjacking.name=LumberJacking
 skill.farming.name=Farming
 skill.fishing.name=Fishing
-skill.cat.resources=Gathering Resources
 
+skill.cat.combat=Combat
+skill.swords.name=Sword
+skill.archery.name=Archery
+skill.parry.name=Parry
+skill.melee.name=Hand to Hand
 
-
+updatemsg.skillz.available=Update %s of RPG Skillz is available
+updatemsg.skillz.download=Download & Changelog:
+updatemsg.skillz.uptodate=RPG Skillz %s is up to date
+updatemsg.skillz.debug=RPG Skillz  %s is a debug version
+updatemsg.skillz.error=An error occurred while parsing RPG Skillz version file!
