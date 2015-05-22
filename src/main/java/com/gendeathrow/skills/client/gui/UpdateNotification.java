@@ -74,31 +74,31 @@ public class UpdateNotification
 		
 		try
 		{
-			String page = getUrl("http://bit.ly/1IRSb6m", true);
+			String page = getUrl("http://bit.ly/1R8HQWy", true);
 			
-			Pattern pattern = Pattern.compile("<version-1.8>(.*)<\\/version-1.8>");
+//			Pattern pattern = Pattern.compile("<version-1.8>(.*)<\\/version-1.8>");
+//			
+//			Matcher matcher = pattern.matcher(page);
+//			
+//			if(matcher.find())
+//			{
+//				version = matcher.group(1);
+//			}
 			
-			Matcher matcher = pattern.matcher(page);
-			
-			if(matcher.find())
-			{
-				version = matcher.group(1);
-			}
-			
-			System.out.println("version found = " + version);
+//			System.out.println("version found = " + version);
 			//version = page.matches("<version-1.8>(.*)</version-1.8>");
 			
-//			String[] data = page.split("\\n");
-//			
-//			String[] rawVer = data[0].trim().split("\\.");
-//			version = rawVer[0] + "." + rawVer[1] + "." + rawVer[2];
+			String[] data = page.split("\\n");
+			
+			String[] rawVer = data[0].trim().split("\\.");
+			version = rawVer[0] + "." + rawVer[1] + "." + rawVer[2];
 			
 //			if(!Skillz.updateCheck)
 //			{
 //				return;
 //			}
 						
-//			String http = data[0].trim();
+			String http = data[0].trim();
 			
 			int verStat = Utils.compareVersions(Skillz.VERSION, version);
 			
@@ -107,17 +107,17 @@ public class UpdateNotification
 				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.enviromine.available", version).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 				event.player.addChatMessage(new ChatComponentTranslation("updatemsg.enviromine.download"));
 				event.player.addChatMessage(new ChatComponentText("https://github.com/GenDeathrow/Skillz/wiki/Downloads").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.BLUE).setUnderlined(true)));
-//				for(int i = 3; i < data.length; i++)
-//				{
-//					if(i > 6)
-//					{
-//						event.player.addChatMessage(new ChatComponentText("" + (data.length - 7) + " more..."));
-//						break;
-//					} else
-//					{
-//						event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RESET + "" + data[i].trim()));
-//					}
-//				}
+				for(int i = 3; i < data.length; i++)
+				{
+					if(i > 6)
+					{
+						event.player.addChatMessage(new ChatComponentText("" + (data.length - 7) + " more..."));
+						break;
+					} else
+					{
+						event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RESET + "" + data[i].trim()));
+					}
+				}
 			} else if(verStat == 0)
 			{
 				event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + StatCollector.translateToLocalFormatted("updatemsg.enviromine.uptodate", Skillz.VERSION)));

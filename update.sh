@@ -32,7 +32,7 @@ grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
 #Build Forge
 ./gradlew clean setupCIWorkSpace build
 
-./make_logs
+. ./make_logs
 
 #Move back to wiki to update
 cd ./wiki
