@@ -13,7 +13,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 
 
 public class renderFishing  extends Render

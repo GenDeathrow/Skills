@@ -1,4 +1,4 @@
-package com.gendeathrow.skills.entity;
+package com.gendeathrow.skills.entity.projectile;
 
 import io.netty.buffer.ByteBuf;
 

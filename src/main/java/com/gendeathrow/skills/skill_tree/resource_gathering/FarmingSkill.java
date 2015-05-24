@@ -29,9 +29,6 @@ public class FarmingSkill extends SkillTreeBase
 	private static final SkillDifficulty bonemeal= new SkillDifficulty("bonemeal").setDifficulty(10).setSkill("farming");
 	private static final SkillDifficulty harvest= new SkillDifficulty("harvest").setDifficulty(10).setSkill("farming");
 
-	private int hoeWait;
-	private boolean canGain;
-	private long lastGain;
 	private BlockPos lastBlock;
 	
 	@SideOnly(Side.CLIENT)
@@ -41,8 +38,6 @@ public class FarmingSkill extends SkillTreeBase
 	{
 		super(tracker);
 		this.lastGain = 0;
-		this.hoeWait = 5000;
-		this.canGain = true;
 	}
 	
 	@Override
@@ -174,25 +169,8 @@ public class FarmingSkill extends SkillTreeBase
 	private void useHoe(UseHoeEvent event)
 	{
 		
-		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
-		
 		if(!this.hasMinLvl(useHoe)) return;
 		
-		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
-		
-		System.out.println("Last Gain:"+ this.lastGain);
-		long flag = (this.lastGain + this.hoeWait);
-		
-		System.out.println("Flag:"+ flag +"bool:"+ (Minecraft.getSystemTime() >= flag) );
-		
-		
-		if(Minecraft.getSystemTime() >= flag)
-		{
-			this.suspendGain = false;
-			this.lastGain = Minecraft.getSystemTime();
-		}else{
-			this.suspendGain = true;
-		}
 		
 		this.calculateGain(event.entityPlayer, useHoe);
 		
@@ -205,26 +183,8 @@ public class FarmingSkill extends SkillTreeBase
 	
 	private void useBonemeal(BonemealEvent event)
 	{
-		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
-		
 		if(!this.hasMinLvl(bonemeal)) return;
-		
-		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
-		
-		System.out.println("Last Gain:"+ this.lastGain);
-		long flag = (this.lastGain + this.hoeWait);
-		
-		System.out.println("Flag:"+ flag +"bool:"+ (Minecraft.getSystemTime() >= flag) );
-		
-		
-		if(Minecraft.getSystemTime() >= flag)
-		{
-			this.suspendGain = false;
-			this.lastGain = Minecraft.getSystemTime();
-		}else{
-			this.suspendGain = true;
-		}
-		
+
 		this.calculateGain(event.entityPlayer, bonemeal);
 		
 		if(this.success == 0)
@@ -236,27 +196,7 @@ public class FarmingSkill extends SkillTreeBase
 	private void onHarvest(BreakEvent event)
 	{
 		
-		if(this.lastGain == 0) this.lastGain = Minecraft.getSystemTime() - this.hoeWait;
-		
-		
-		
 		if(!this.hasMinLvl(harvest)) return;
-		
-		System.out.println("Minecraft Time:"+ Minecraft.getSystemTime());
-		
-		System.out.println("Last Gain:"+ this.lastGain);
-		long flag = (this.lastGain + this.hoeWait);
-		
-		System.out.println("Flag:"+ flag +"bool:"+ (Minecraft.getSystemTime() >= flag) );
-		
-		
-		if(Minecraft.getSystemTime() >= flag)
-		{
-			this.suspendGain = false;
-			this.lastGain = Minecraft.getSystemTime();
-		}else{
-			this.suspendGain = true;
-		}
 		
 		this.calculateGain(event.getPlayer(), harvest);
 		
@@ -264,11 +204,6 @@ public class FarmingSkill extends SkillTreeBase
 		{
 			event.setCanceled(true);
 		}
-	}
-	
-	private void bonusDrops()
-	{
-		
 	}
 
 }

@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import com.gendeathrow.skills.client.render.renderFishing;
 import com.gendeathrow.skills.core.proxies.CommonProxy;
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
 
 import org.apache.logging.log4j.Logger;

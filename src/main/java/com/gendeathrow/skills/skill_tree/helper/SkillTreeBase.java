@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,9 +28,12 @@ public abstract class SkillTreeBase
 	public boolean markSave;
 	protected boolean suspendGain;
 	public SkillTrackerData tracker;
+	protected long lastGain;
+	/**time in ms */
+	protected int waitGain;
 
-	public SkillTreeBase(SkillTrackerData tracker) {
-
+	public SkillTreeBase(SkillTrackerData tracker) 
+	{
 		this.current = 0;
 		this.max = 100;
 		this.lock = false;
@@ -39,6 +43,8 @@ public abstract class SkillTreeBase
 		this.markSave = false;
 		this.suspendGain = false;
 		this.tracker = tracker;
+		this.lastGain = 0;
+		this.waitGain = 5000;
 	}
 
 	public abstract String getLocName();
@@ -106,6 +112,36 @@ public abstract class SkillTreeBase
 		this.gain = newGain; 
 	}
 	
+	/**
+	 * Sets the time delay that a player can gain a skill
+	 * no matter how fast a player uses the skill.
+	 * 
+	 * Default is 5 sec's
+	 * @param newDelay
+	 */
+	public void setSkillGainDelay(int newDelay)
+	{
+		this.waitGain = newDelay;
+	}
+	
+	/**
+	 * Will check check time of last gain and compare to the wait limit
+	 * of the current skill. and will set suspendGain.
+	 * 
+	 * @return Boolean
+	 */
+	public boolean checkSkillGainDelay()
+	{
+		if(Minecraft.getSystemTime() >= (this.waitGain + this.lastGain)) 
+		{
+			this.suspendGain = false;
+		}else{
+			this.suspendGain = true;
+		}
+		
+		return this.suspendGain;
+	}
+	
 	public boolean isLocked(){ return this.lock; }
 	
 	/**
@@ -160,8 +196,12 @@ public abstract class SkillTreeBase
 		System.out.println("Attempting to gain skill:"+ formula +" > " + number);
 		if(formula > number)
 		{
-			System.out.println("Gained Skill point:"+ this.current);
-			if(!this.suspendGain) this.increaseSkill(this.gain);
+			if(!this.checkSkillGainDelay()) 
+			{
+				System.out.println("Gained Skill point:"+ this.current);
+				this.lastGain = Minecraft.getSystemTime();
+				this.increaseSkill(this.gain);
+			}
 			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
 		}
 		
@@ -169,7 +209,7 @@ public abstract class SkillTreeBase
 		return formula;
 	}
 
-	// This is only for 
+	// This is only for my debuging Gui
 	public double DebugFormula(EntityPlayer player,double chance, SkillDifficulty difficulty , int success)
 	{
 		
@@ -300,6 +340,14 @@ public abstract class SkillTreeBase
 
 	}
 
+	/**
+	 * Get a bonus factor depending on start lvl, per each lvl.
+	 * 
+	 * @param startAt
+	 * @param forEach
+	 * @param gainAmt
+	 * @return
+	 */
 	public float getBonusFactor(int startAt, int forEach, double gainAmt)
 	{
 		return (float) (((this.current - startAt)/forEach)*gainAmt);
@@ -307,6 +355,12 @@ public abstract class SkillTreeBase
 	
 	public abstract void onEvent(Object event);
 
+	/**
+	 * Check to see if the player has leveled up their skill a whole number
+	 * 
+	 * @param prelvl
+	 * @return
+	 */
 	public boolean hasLvlUp(double prelvl) 
 	{
 		long preParti = (long) prelvl + 1;

@@ -22,7 +22,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.gendeathrow.skills.core.Skillz;
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 
 public class EventHandler
 {

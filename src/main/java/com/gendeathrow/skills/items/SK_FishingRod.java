@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.common.Skill_TrackerManager;
 import com.gendeathrow.skills.core.Skillz;
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 
 public class SK_FishingRod extends Item
 {

@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.gendeathrow.skills.client.gui.GuiManager;
 import com.gendeathrow.skills.client.render.renderFishing;
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
 
 public class ClientProxy extends CommonProxy {

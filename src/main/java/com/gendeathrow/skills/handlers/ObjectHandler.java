@@ -5,10 +5,10 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.gendeathrow.skills.core.Skillz;
-import com.gendeathrow.skills.entity.SK_FishHook;
+import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
 
-public class ObjectHandler 
+public class ObjectHandler
 {
 	public static Item fishingRod;
 	public static SK_FishHook hookEntity;
