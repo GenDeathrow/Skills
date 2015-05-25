@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import com.gendeathrow.skills.common.SkillTrackerData;
 import com.gendeathrow.skills.common.Skill_TrackerManager;
+import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
 import com.gendeathrow.skills.skill_tree.resource_gathering.MiningSkillTree;
@@ -31,7 +32,8 @@ public class GuiManager
 			return;
 		}
 		
-		SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
+		//SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
+		SkillTrackerData tracker = SkillTrackerData.get(Minecraft.getMinecraft().thePlayer);
 		
 		if(tracker == null) return;
 	

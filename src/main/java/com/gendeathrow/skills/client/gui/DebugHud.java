@@ -59,8 +59,6 @@ public class DebugHud
 				SkillTreeBase skill = tracker.GetSkillByID(skdiff.skillType);
 				if(skill == null) return;
 				
-				
-				
 				double chance = skill.getChance(skdiff);
 				double gainS = skill.DebugFormula(Minecraft.getMinecraft().thePlayer, chance, skdiff,1);
 				double gainF = skill.DebugFormula(Minecraft.getMinecraft().thePlayer, chance, skdiff,0);

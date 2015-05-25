@@ -1,11 +1,10 @@
 package com.gendeathrow.skills.common;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
-import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -22,14 +21,23 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.gendeathrow.skills.core.Skillz;
+import com.gendeathrow.skills.network.PacketDispatcher;
+import com.gendeathrow.skills.network.client.SyncPlayersSkillPropsMessage;
 
 public class EventHandler
 {
 	@SubscribeEvent
 	public void onPlayerEnterWorld(EntityJoinWorldEvent event) throws InstantiationException, ReflectiveOperationException, Exception, Throwable
 	{
+		if (event.entity instanceof EntityPlayerMP) {
+			Skillz.logger.info("Player joined world, sending extended properties to client");
+			PacketDispatcher.sendTo(new SyncPlayersSkillPropsMessage((EntityPlayer) event.entity), (EntityPlayerMP) event.entity);
+		}
+		
 		if(event.entity instanceof EntityPlayerMP)
 		{
+			
+			
 			/*
 			System.out.println("Player is an Entity Player");
 			// Ensure that only one set of trackers are made per Minecraft instance.
@@ -61,27 +69,35 @@ public class EventHandler
 	}
 	
 	@SubscribeEvent
+	public void onClonePlayer(PlayerEvent.Clone event) {
+		Skillz.logger.info("Cloning player extended properties");
+		SkillTrackerData.get(event.entityPlayer).copy(SkillTrackerData.get(event.original));
+	}
+	
+	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event)
 	{
 		
 	}
 	
 	@SubscribeEvent
-	private void onPlayerSave(EntityEvent.EntityConstructing event)
-	{
-		if(event.entity instanceof EntityPlayer)
-		{
+	public void onEntityConstructing(EntityConstructing event) throws InstantiationException, ReflectiveOperationException, Exception, Throwable {
+		if (event.entity instanceof EntityPlayer) {
+			if (SkillTrackerData.get((EntityPlayer) event.entity) == null) {
+				Skillz.logger.info("Registering extended properties for player");
+				SkillTrackerData.register((EntityPlayer) event.entity);
+			}
 		}
 	}
-	
 	
 	private void onEvent(Entity entity, Object event)
 	{
 		if(entity instanceof EntityPlayer)
 		{
-			SkillTrackerData tracker = Skill_TrackerManager.lookupTracker((EntityPlayer)entity);
+			//SkillTrackerData tracker = Skill_TrackerManager.lookupTracker((EntityPlayer)entity);
+			SkillTrackerData tracker = SkillTrackerData.get((EntityPlayer)entity);
 			
-			tracker.sendEvent(event);
+			if(tracker != null)	tracker.sendEvent(entity,event);
 		}	
 	}
 	

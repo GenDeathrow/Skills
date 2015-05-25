@@ -1,14 +1,17 @@
 package com.gendeathrow.skills.core.proxies;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import com.gendeathrow.skills.client.gui.UpdateNotification;
 import com.gendeathrow.skills.common.EventHandler;
 import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.core.Skillz;
 
 public class CommonProxy {
 
@@ -66,6 +69,22 @@ public class CommonProxy {
 	public void registerRenders()
 	{
 		
+	}
+
+	/**
+	 * Returns a side-appropriate EntityPlayer for use during message handling
+	 */
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		Skillz.logger.info("Retrieving player from CommonProxy for message on side " + ctx.side);
+		return ctx.getServerHandler().playerEntity;
+	}
+
+	/**
+	 * Returns the current thread based on side during message handling,
+	 * used for ensuring that the message is being handled by the main thread
+	 */
+	public IThreadListener getThreadFromContext(MessageContext ctx) {
+		return ctx.getServerHandler().playerEntity.getServerForPlayer();
 	}
 
 }

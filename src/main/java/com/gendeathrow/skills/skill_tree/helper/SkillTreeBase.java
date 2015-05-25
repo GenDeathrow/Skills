@@ -10,7 +10,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.gendeathrow.skills.common.SkillDifficulty;
 import com.gendeathrow.skills.common.SkillTrackerData;
@@ -132,7 +135,7 @@ public abstract class SkillTreeBase
 	 */
 	public boolean checkSkillGainDelay()
 	{
-		if(Minecraft.getSystemTime() >= (this.waitGain + this.lastGain)) 
+		if(MinecraftServer.getCurrentTimeMillis() >= (this.waitGain + this.lastGain)) 
 		{
 			this.suspendGain = false;
 		}else{
@@ -179,6 +182,8 @@ public abstract class SkillTreeBase
 	 */
 	public double calculateGain(EntityPlayer player, int success , double chance)
 	{
+		if (!player.worldObj.isRemote) 
+		{
 		if(this.lock || this.current >= this.max || this.unlearn) return 0;
 				
 		int totalcap = SKSettings.totalSkillCap;
@@ -199,7 +204,7 @@ public abstract class SkillTreeBase
 			if(!this.checkSkillGainDelay()) 
 			{
 				System.out.println("Gained Skill point:"+ this.current);
-				this.lastGain = Minecraft.getSystemTime();
+				this.lastGain = MinecraftServer.getCurrentTimeMillis();
 				this.increaseSkill(this.gain);
 			}
 			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
@@ -207,6 +212,8 @@ public abstract class SkillTreeBase
 		
 		this.current = MathHelper.round(this.current, 2);
 		return formula;
+		}
+		return 0;
 	}
 
 	// This is only for my debuging Gui

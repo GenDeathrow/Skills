@@ -8,17 +8,15 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.logging.log4j.Logger;
 
 import com.gendeathrow.skills.core.proxies.CommonProxy;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
-import com.gendeathrow.skills.network.PacketSkillz;
+import com.gendeathrow.skills.network.PacketDispatcher;
 
 @Mod(modid = Skillz.MODID, version = Skillz.VERSION, name = Skillz.Name)
 public class Skillz
@@ -55,6 +53,9 @@ public class Skillz
 			//this.network = NetworkRegistry.INSTANCE.newSimpleChannel(Channel);
 			//this.network.registerMessage(PacketSkillz.HandlerServer.class, PacketSkillz.class, 0, Side.SERVER);
 			//this.network.registerMessage(PacketSkillz.HandlerClient.class, PacketSkillz.class, 1, Side.CLIENT);
+			
+			PacketDispatcher.registerPackets();
+			
 		}
 	    @EventHandler
 	    public void init(FMLInitializationEvent event)

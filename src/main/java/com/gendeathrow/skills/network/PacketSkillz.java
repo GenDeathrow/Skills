@@ -83,7 +83,7 @@ public class PacketSkillz implements IMessage
 			if(tracker != null)
 			{
 				
-				Skill_TrackerManager.saveTracker(tracker);
+				//Skill_TrackerManager.saveTracker(tracker);
 			}
 		}
 	}

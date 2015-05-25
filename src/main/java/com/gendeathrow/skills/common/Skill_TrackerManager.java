@@ -72,7 +72,7 @@ public class Skill_TrackerManager
 		//Skillz.instance.network.sendToAllAround(new PacketSkillz(pData), new TargetPoint(tracker.trackedEntity.worldObj.provider.getDimensionId(), tracker.trackedEntity.posX, tracker.trackedEntity.posY, tracker.trackedEntity.posZ, 128D));
 
 	}
-	
+/*
 	public static void saveTracker(SkillTrackerData tracker)
 	{
 		System.out.println("Saving Tracker:"+ tracker.trackedEntity.getName());
@@ -95,7 +95,7 @@ public class Skill_TrackerManager
 		
 		nbt.setTag("SkillTree", skillzTag);
 	}
-
+*/
 	public static SkillTrackerData lookupTrackerFromUsername(String playerName) 
 	{
 		return skillTrackerList.get(playerName);
