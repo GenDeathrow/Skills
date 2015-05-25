@@ -31,13 +31,9 @@ public class FarmingSkill extends SkillTreeBase
 
 	private BlockPos lastBlock;
 	
-	@SideOnly(Side.CLIENT)
-	private ArrayList hoeUsed = new ArrayList();
-	
 	public FarmingSkill(SkillTrackerData tracker)
 	{
 		super(tracker);
-		this.lastGain = 0;
 	}
 	
 	@Override

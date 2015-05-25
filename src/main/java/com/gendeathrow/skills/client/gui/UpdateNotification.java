@@ -121,7 +121,7 @@ public class UpdateNotification
 		{
 			if(SKSettings.updateCheck)
 			{
-				Skillz.log.log(Level.WARN, "Failed to get/read versions file!");
+				Skillz.logger.log(Level.WARN, "Failed to get/read versions file!");
 			}
 		}
 	}
@@ -149,7 +149,7 @@ public class UpdateNotification
 		int responseCode = con.getResponseCode();
 		if(responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_MOVED_PERM)
 		{
-			Skillz.log.log(Level.WARN, "Update request returned response code: " + responseCode + " " + con.getResponseMessage());
+			Skillz.logger.log(Level.WARN, "Update request returned response code: " + responseCode + " " + con.getResponseMessage());
 		} else if(responseCode == HttpURLConnection.HTTP_MOVED_PERM)
 		{
 			if(doRedirect)

@@ -34,11 +34,11 @@ public class Utils {
 			newNum = new int[]{Integer.valueOf(newNumStr[0]),Integer.valueOf(newNumStr[1]),Integer.valueOf(newNumStr[2])};
 		} catch(IndexOutOfBoundsException e)
 		{
-			Skillz.log.log(Level.WARN, "An IndexOutOfBoundsException occured while checking version!", e);
+			Skillz.logger.log(Level.WARN, "An IndexOutOfBoundsException occured while checking version!", e);
 			return -2;
 		} catch(NumberFormatException e)
 		{
-			Skillz.log.log(Level.WARN, "A NumberFormatException occured while checking version!\n", e);
+			Skillz.logger.log(Level.WARN, "A NumberFormatException occured while checking version!\n", e);
 			return -2;
 		}
 		

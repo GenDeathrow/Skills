@@ -1,10 +1,13 @@
 package com.gendeathrow.skills.common;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
@@ -28,18 +32,25 @@ public class SkillTrackerData
 		this.PlayerSkills = new ArrayList<SkillTreeBase>();
 		this.fishingEntity = null;
 		
+
+		
 		HashMap<String, Class<?>> SkillList = SkillTree_Manager.instance.SkillList;
 
 		Iterator<Entry<String, Class<?>>> it = SkillList.entrySet().iterator();
 		
 		while(it.hasNext())
 		{
-			Class clazz = it.next().getValue();
-			//clzz = SkillList.
-			Constructor<SkillTreeBase> ctor = clazz.getConstructor(SkillTrackerData.class);
-			SkillTreeBase object = (SkillTreeBase)ctor.newInstance(this);
-			
-			this.PlayerSkills.add(object);
+			try
+			{
+				
+				Class clazz = it.next().getValue();
+				Constructor<SkillTreeBase> ctor = clazz.getConstructor(SkillTrackerData.class);
+				SkillTreeBase object = (SkillTreeBase)ctor.newInstance(this);
+				this.PlayerSkills.add(object);
+			} catch (InvocationTargetException ex) 
+			{ 
+				Skillz.logger.log(Level.ERROR, "oops!" + ex.getCause());
+			}
 		}
 
 		//TODO DEBUG PART
@@ -57,6 +68,10 @@ public class SkillTrackerData
 
 	public void sendEvent(Object event)
 	{
+
+		
+		if(Skillz.proxy.isClient()) {System.out.println("This is client");}
+		if(!Skillz.proxy.isClient()) {System.out.println("This is Server");}
 		Iterator<SkillTreeBase> ti = this.PlayerSkills.iterator();
 		
 		boolean markedForSave = false;
@@ -68,7 +83,11 @@ public class SkillTrackerData
 			
 			skill.onEvent(event);
 			
-			if(skill.markedDirty()) markedForSave = true;
+			if(skill.markedDirty()) 
+			{
+				markedForSave = true;
+				Skill_TrackerManager.updateTracker(this);
+			}
 			
 			if(skill.hasLvlUp(prelvl))
 			{
@@ -89,13 +108,11 @@ public class SkillTrackerData
 		while(ti.hasNext())
 		{
 			SkillTreeBase skill = ti.next();
-			
 			total += skill.getSkillLevel();
-			
 		}
 		return total;
 	}
-	public void loadNBTTags() 
+	public NBTTagCompound loadNBTTags() 
 	{
 		NBTTagCompound nbt = this.trackedEntity.getEntityData();
 		NBTTagCompound skillTreeNBT = nbt.getCompoundTag("SkillTree");
@@ -109,7 +126,9 @@ public class SkillTrackerData
 			
 			skill.readNBT(skillNBT);
 			
-		}		
+		}
+		
+		return nbt;
 		
 	}
 	

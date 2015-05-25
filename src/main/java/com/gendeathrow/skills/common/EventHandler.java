@@ -4,11 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -22,7 +22,6 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.gendeathrow.skills.core.Skillz;
-import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 
 public class EventHandler
 {
@@ -31,10 +30,13 @@ public class EventHandler
 	{
 		if(event.entity instanceof EntityPlayerMP)
 		{
+			/*
 			System.out.println("Player is an Entity Player");
 			// Ensure that only one set of trackers are made per Minecraft instance.
 			boolean allowTracker = !(event.world.isRemote && Skillz.proxy.isClient() && Minecraft.getMinecraft().isIntegratedServerRunning());
-			
+			System.out.println("Allow Tracker:"+ allowTracker +" isRemote:"+ event.world.isRemote );
+			if(allowTracker)
+			{
 				SkillTrackerData tracker = Skill_TrackerManager.lookupTracker((EntityPlayer)event.entity);
 				boolean hasOld = tracker != null;
 				
@@ -43,24 +45,32 @@ public class EventHandler
 					SkillTrackerData skillTrack = new SkillTrackerData((EntityPlayerMP)event.entity);
 					Skill_TrackerManager.addToManager(skillTrack);
 					skillTrack.loadNBTTags();
+					
 					if(!Skillz.proxy.isClient() || Skillz.proxy.isOpenToLAN())
 					{
-						//Skill_TrackerManager.syncMultiplayerTracker(skillTrack);
+					
+						Skill_TrackerManager.syncMultiplayerTracker(skillTrack);
 					}
 				} else
 				{
 					tracker.trackedEntity = (EntityPlayer)event.entity;
 				}
+			}*/
 		}
 
 	}
 	
 	@SubscribeEvent
+	public void onLivingUpdate(LivingUpdateEvent event)
+	{
+		
+	}
+	
+	@SubscribeEvent
 	private void onPlayerSave(EntityEvent.EntityConstructing event)
 	{
-		if(event.entity instanceof EntityPlayerMP)
+		if(event.entity instanceof EntityPlayer)
 		{
-			
 		}
 	}
 	

@@ -33,7 +33,7 @@ public class GuiManager
 		
 		SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
 		
-		if(tracker.equals(null)) return;
+		if(tracker == null) return;
 	
 		int boxheight = ((SkillTree_Manager.instance.SkillList.size()+1)* 10)+15;
 		RenderAssist.drawRect(5, 5, 120, boxheight, RenderAssist.getColorFromRGBA(173, 173, 173, 145));

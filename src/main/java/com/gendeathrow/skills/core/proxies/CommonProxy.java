@@ -60,9 +60,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(eventManager);
 		FMLCommonHandler.instance().bus().register(eventManager);
 		
-		UpdateNotification updateManager = new UpdateNotification();
-		MinecraftForge.EVENT_BUS.register(updateManager);
-		FMLCommonHandler.instance().bus().register(updateManager);
+
 	}
 	
 	public void registerRenders()

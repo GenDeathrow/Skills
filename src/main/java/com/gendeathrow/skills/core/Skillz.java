@@ -1,7 +1,5 @@
 package com.gendeathrow.skills.core;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -10,15 +8,17 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
-import com.gendeathrow.skills.client.render.renderFishing;
+import org.apache.logging.log4j.Logger;
+
 import com.gendeathrow.skills.core.proxies.CommonProxy;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
-
-import org.apache.logging.log4j.Logger;
+import com.gendeathrow.skills.network.PacketSkillz;
 
 @Mod(modid = Skillz.MODID, version = Skillz.VERSION, name = Skillz.Name)
 public class Skillz
@@ -27,11 +27,9 @@ public class Skillz
 	    public static final String VERSION = "GD_SK_VER";
 	    public static final String Name = "Skillz";
 	    public static final String Proxy = "com.gendeathrow.skills.core.proxies";
-	    public static final String Channel = "SZ_GenD";
+	    public static final String Channel = "SK_GenD";
 	    
-	    public static  Logger log;
-	    
-	    
+	    public static  Logger logger;
 	    
 	    @Instance(Skillz.MODID)
 	    public static Skillz instance;
@@ -47,12 +45,16 @@ public class Skillz
 		{
 			System.out.println("VERSION:"+ VERSION);
 			
-			log = event.getModLog();
+			logger = event.getModLog();
 			
 			proxy.preInit(event);
 			
 			SK_FishingRod.init();
 			SK_FishingRod.register();
+			
+			//this.network = NetworkRegistry.INSTANCE.newSimpleChannel(Channel);
+			//this.network.registerMessage(PacketSkillz.HandlerServer.class, PacketSkillz.class, 0, Side.SERVER);
+			//this.network.registerMessage(PacketSkillz.HandlerClient.class, PacketSkillz.class, 1, Side.CLIENT);
 		}
 	    @EventHandler
 	    public void init(FMLInitializationEvent event)

@@ -41,8 +41,8 @@ public class SK_FishingRod extends Item
     {
     	 fishingrod = new SK_FishingRod().setUnlocalizedName("sk_fishing_rod");
     	
+    	 if(!Skillz.proxy.isClient()) return;
     	 castModel = new ModelResourceLocation(Skillz.MODID+ ":sk_fishing_rod_cast", "inventory");
-    	 
     	 System.out.println("Regsiter CastModel"+ castModel.getResourcePath() +"-"+ castModel.getResourceDomain() +"-"+ castModel.getVariant());
     	 uncastModel = new ModelResourceLocation(Skillz.MODID+ ":sk_fishing_rod", "inventory");
     }
