@@ -9,10 +9,11 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-import com.gendeathrow.skills.common.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
-public class LumberJackSkill extends SkillTreeBase
+public class LumberJackSkill extends ResourceGatheringBase implements ISkill
 {
 
 
@@ -25,25 +26,19 @@ public class LumberJackSkill extends SkillTreeBase
 	BlockPos lastblock;
 	
 	@Override
-	public String getLocName() 
+	public String LocalizedName() 
 	{
-		return StatCollector.translateToLocal("skill.lumberjacking.name");
+		return "skill.lumberjacking.name";
 	}
 
 	@Override
-	public String getULN() 
+	public String ULN() 
 	{
 		return "lumberjacking";
 	}
 
 	@Override
-	public String getCat() 
-	{
-		return StatCollector.translateToLocal("skill.cat.resources");
-	}
-
-	@Override
-	public String getDescription() 
+	public String Description() 
 	{
 		return "Null";
 	}
@@ -54,7 +49,7 @@ public class LumberJackSkill extends SkillTreeBase
 		if(event instanceof PlayerEvent.BreakSpeed)
 		{
 			PlayerEvent.BreakSpeed newevent = (PlayerEvent.BreakSpeed)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 			
 			float bonusSpeed = this.getBonusFactor(50, 10, .05);
 			bonusSpeed = bonusSpeed < 0 ? 0 : bonusSpeed;
@@ -62,7 +57,7 @@ public class LumberJackSkill extends SkillTreeBase
 		}else if(event instanceof BlockEvent.BreakEvent)
 		{
 			BlockEvent.BreakEvent newevent = (BlockEvent.BreakEvent)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 			
 				this.lastblock = newevent.pos;
 				this.doBlockBreak(newevent);
@@ -71,7 +66,7 @@ public class LumberJackSkill extends SkillTreeBase
 		else if(event instanceof BlockEvent.HarvestDropsEvent)
 		{
 			BlockEvent.HarvestDropsEvent newevent = (BlockEvent.HarvestDropsEvent)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 		
 			BlockPos pos = newevent.pos;
 			if(this.success == 0 && pos == this.lastblock)

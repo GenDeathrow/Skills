@@ -1,4 +1,4 @@
-package com.gendeathrow.skills.common;
+package com.gendeathrow.skills.common.skill;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -61,15 +61,15 @@ public class SkillTrackerData implements IExtendedEntityProperties
 		}
 
 		//TODO DEBUG PART
-		Iterator<SkillTreeBase> ti = this.PlayerSkills.iterator();
-		
-		while(ti.hasNext())
-		{
-			SkillTreeBase skill = ti.next();
-			
-			System.out.println(skill.getLocName() +" - '"+ skill.getULN() +"' - "+ skill.getDescription());
-			
-		}
+//		Iterator<SkillTreeBase> ti = this.PlayerSkills.iterator();
+//		
+//		while(ti.hasNext())
+//		{
+//			SkillTreeBase skill = ti.next();
+//			
+//			System.out.println(skill.getLocName() +" - '"+ skill.getULN() +"' - "+ skill.getDescription());
+//			
+//		}
 		
 	}
 
@@ -83,19 +83,12 @@ public class SkillTrackerData implements IExtendedEntityProperties
 		while(ti.hasNext())
 		{
 			SkillTreeBase skill = ti.next();
-			double prelvl = skill.getSkillLevel();
-			
-			skill.onEvent(event);
 
-			if(skill.hasLvlUp(prelvl))
-			{
-				this.trackedEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "("+ skill.getLocName() +") "+ "+1 Leveled Up to "+ ((long)skill.getSkillLevel())));
-			}
+			skill.onEvent(event);
 			
-			if(skill.markedDirty()) 
+			if(skill.isDirty()) 
 			{
 				markedForSave = true;
-				//Skill_TrackerManager.updateTracker(this);
 			}
 		}
 		
@@ -104,15 +97,10 @@ public class SkillTrackerData implements IExtendedEntityProperties
 			Skillz.logger.info("Data Changed Updating Client");
 			PacketDispatcher.sendTo(new SyncPlayersSkillPropsMessage((EntityPlayer) entity), (EntityPlayerMP) entity);
 		}	
-/*
-		if(markedForSave) Skill_TrackerManager.saveTracker(this);
-		*/
 	}
 	
 	public static float getTotalSkillPoints(EntityPlayer player)
 	{
-		//SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(player);
-		
 		SkillTrackerData tracker = get(player);
 		
 		float total = 0; 
@@ -126,31 +114,8 @@ public class SkillTrackerData implements IExtendedEntityProperties
 		return total;
 	}
 	
-	/*
-	public NBTTagCompound loadNBTTags() 
-	{
-		NBTTagCompound nbt = this.trackedEntity.getEntityData();
-		NBTTagCompound skillTreeNBT = nbt.getCompoundTag("SkillTree");
-		Iterator<SkillTreeBase> it = this.PlayerSkills.iterator();
-		
-		while(it.hasNext())
-		{
-			SkillTreeBase skill = it.next();
-			
-			NBTTagCompound skillNBT = skillTreeNBT.getCompoundTag(skill.getULN());
-			
-			skill.readNBT(skillNBT);
-			
-		}
-		
-		return nbt;
-		
-	}
-	*/
 	public SkillTreeBase GetSkillByID(String lookingFor)
 	{
-
-
 		Iterator<SkillTreeBase> it = this.PlayerSkills.iterator();
 		
 		while(it.hasNext())
@@ -162,36 +127,36 @@ public class SkillTrackerData implements IExtendedEntityProperties
 				return skill;
 			}
 		}
-		
+
 		return null;
-		
-		
 	}
 
 	@Override
-	public void saveNBTData(NBTTagCompound compound) {
+	public void saveNBTData(NBTTagCompound compound) 
+	{
+		saveNBTData(compound, false); 
+	}
+	
+	public void saveNBTData(NBTTagCompound compound, Boolean isNetworkMessage) 
+	{
+		System.out.println("Saving Tracker:"+ this.trackedEntity.getName());
 
 		NBTTagCompound nbt = new NBTTagCompound();
-		
-		System.out.println("Saving Tracker:"+ this.trackedEntity.getName());
-		//NBTTagCompound nbt = tracker.trackedEntity.getEntityData();
-		
-		NBTTagCompound skillzTag = new NBTTagCompound();
-		
 		Iterator<SkillTreeBase> it = this.PlayerSkills.iterator();
 		
 		while(it.hasNext())
 		{
 			SkillTreeBase skill = it.next();
+			
+			// If network is true, and it is not marked for dirty move to next skill
+			if(isNetworkMessage && !skill.isDirty()) continue;
 		
 			NBTTagCompound skillNBT = new NBTTagCompound();
 			
 			skill.writeNBT(skillNBT);
 			
-			skillzTag.setTag(skill.getULN(), skillNBT);
+			nbt.setTag(skill.getULN(), skillNBT);
 		}
-		
-		nbt.setTag("SkillTree", skillzTag);	
 		
 		compound.setTag(EXT_PROP_NAME, nbt);
 	}
@@ -199,16 +164,22 @@ public class SkillTrackerData implements IExtendedEntityProperties
 	@Override
 	public void loadNBTData(NBTTagCompound compound) 
 	{
+		loadNBTData(compound, false);
+	}	
+
+	public void loadNBTData(NBTTagCompound compound, Boolean isNetworkMessage) 
+	{
 		NBTTagCompound nbt = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
-		NBTTagCompound skillTreeNBT = nbt.getCompoundTag("SkillTree");
 		Iterator<SkillTreeBase> it = this.PlayerSkills.iterator();
 		
 		while(it.hasNext())
 		{
 			SkillTreeBase skill = it.next();
 			
-			NBTTagCompound skillNBT = skillTreeNBT.getCompoundTag(skill.getULN());
-			
+			// If network is true, and it is not marked for dirty move to next skill
+			//if(isNetworkMessage && !skill.markedDirty()) continue;
+			System.out.print(skill.getULN());
+			NBTTagCompound skillNBT = nbt.getCompoundTag(skill.getULN());			
 			skill.readNBT(skillNBT);
 		}
 		

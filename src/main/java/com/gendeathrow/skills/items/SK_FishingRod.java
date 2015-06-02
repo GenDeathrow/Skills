@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.gendeathrow.skills.common.SkillTrackerData;
-import com.gendeathrow.skills.common.Skill_TrackerManager;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.Skill_TrackerManager;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 
@@ -121,7 +121,7 @@ public class SK_FishingRod extends Item
      */
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-        SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(playerIn);
+        SkillTrackerData tracker =  SkillTrackerData.get(playerIn);
         if(tracker == null) return itemStackIn;
         
         if (tracker.fishingEntity != null)
@@ -153,7 +153,7 @@ public class SK_FishingRod extends Item
 
 		if(playerIn instanceof EntityPlayer)
 		{
-			SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(playerIn);
+			SkillTrackerData tracker =  SkillTrackerData.get(playerIn);
 			
 			if(tracker != null)
 			{

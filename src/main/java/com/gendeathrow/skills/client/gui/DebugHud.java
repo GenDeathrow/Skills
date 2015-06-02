@@ -2,12 +2,6 @@ package com.gendeathrow.skills.client.gui;
 
 import java.awt.Color;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
-import com.gendeathrow.skills.common.SkillTrackerData;
-import com.gendeathrow.skills.common.Skill_TrackerManager;
-import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
-import com.gendeathrow.skills.utils.MathHelper;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -17,6 +11,12 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Post;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.Skill_TrackerManager;
+import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.MathHelper;
 
 @SideOnly(Side.CLIENT)
 public class DebugHud 
@@ -49,7 +49,7 @@ public class DebugHud
 			if(lookingAt.getBlock() == Blocks.air) return;
 			
 			ScaledResolution res = event.resolution;			
-			SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
+			SkillTrackerData tracker = SkillTrackerData.get(Minecraft.getMinecraft().thePlayer);
 			
 			if(SkillDifficulty.hasBlockDifficulty(lookingAt) && tracker != null)
 			{

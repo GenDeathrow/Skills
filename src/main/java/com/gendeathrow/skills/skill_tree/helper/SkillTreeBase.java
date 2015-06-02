@@ -1,22 +1,17 @@
 package com.gendeathrow.skills.skill_tree.helper;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
-import com.gendeathrow.skills.common.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.core.SKSettings;
 import com.gendeathrow.skills.utils.MathHelper;
 
@@ -32,6 +27,7 @@ public abstract class SkillTreeBase
 	protected boolean suspendGain;
 	public SkillTrackerData tracker;
 	protected long lastGain;
+	protected double preGain;
 	/**time in ms */
 	protected int waitGain;
 
@@ -50,14 +46,64 @@ public abstract class SkillTreeBase
 		this.waitGain = 5000;
 	}
 
-	public abstract String getLocName();
+	/**
+	 * Get Localized Name of Skill from ISkill
+	 * @return
+	 */
+	public String getLocName()
+	{
+		return StatCollector.translateToLocal(((ISkill)this).LocalizedName());
+	}
 
-	public abstract String getULN();
-	
-	public abstract String getCat();
+	/**
+	 * Get UnLocalized Name of Skill from ISkill
+	 * @return
+	 */
+	public String getULN()
+	{
+		return ((ISkill)this).ULN();
+	}
 
-	public abstract String getDescription();
+	/**
+	 * Get Description of Skill from ISkill
+	 * @return
+	 */
+	public String getDescription()
+	{
+		return((ISkill)this).Description();
+	}
+
+	/**
+	 * Get Localized Name of Category from ISkillCat
+	 * @return
+	 */
+	public String getCatLocalizedName()
+	{
+		return StatCollector.translateToLocal(((ISkillCat)this).getCatLocName());
+	}
+
+	public String getCatULN()
+	{
+		return ((ISkillCat)this).getCatULN();
+	}
+
 	
+	/**
+	 * Get Description from Category from ISkillCat
+	 * @return
+	 */
+	public String getCatDescription()
+	{
+		return((ISkillCat)this).getCatDescription();
+	}
+	
+	/**
+	 * Get a Random skill point number for gaining a skill point
+	 * 
+	 * 	@param rangeMin
+	 * @param rangeMax
+	 * @return
+	 */
 	public double randomGain(double rangeMin, double rangeMax)
 	{
 		double value;
@@ -72,7 +118,7 @@ public abstract class SkillTreeBase
 	 * will return true if marked to save, but will reset markedSave to false
 	 * @return
 	 */
-	public boolean markedDirty()
+	public boolean isDirty()
 	{
 		boolean bool = this.markSave;
 		this.markSave = false;
@@ -98,6 +144,11 @@ public abstract class SkillTreeBase
 			this.current = this.max;
 		}
 		this.markSave = true;
+		
+		if(this.hasLvlUp(this.current - value))
+		{
+			this.tracker.trackedEntity.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "("+ this.getLocName() +") "+ "+1 Leveled Up to "+ ((long)this.getSkillLevel())));
+		}
 	}
 
 	public void decreaseSkill(double value) 
@@ -319,33 +370,11 @@ public abstract class SkillTreeBase
 		nbt.setBoolean("unlearn", this.unlearn);
 	}
 	
-	public boolean isCorrectSkill(IBlockState state)
+	public boolean isCorrectSkill(IBlockState state, String skillULN)
 	{
-		return SkillDifficulty.hasBlockDifficulty(state, this.getULN()); 
+		return SkillDifficulty.hasBlockDifficulty(state, skillULN); 
 	}
 	
-	public void doBonusDrops(HarvestDropsEvent event, float dropChance)
-	{
-		
-		List<ItemStack> dropList = new ArrayList();
-		System.out.println("DropListB:"+ event.drops.size());
-		
-		Iterator<ItemStack> it = event.drops.iterator();
-		Random rand = new Random();
-		ItemStack item;
-		while(it.hasNext())
-		{
-			item = it.next();
-			System.out.println("increase items:"+ item.getDisplayName());
-			if(rand.nextFloat() < dropChance)
-			{
-				dropList.add(item.copy());
-			}
-		}
-		event.drops.addAll(dropList);
-		System.out.println("DropListA:"+ event.drops.size());
-
-	}
 
 	/**
 	 * Get a bonus factor depending on start lvl, per each lvl.
@@ -371,6 +400,7 @@ public abstract class SkillTreeBase
 	public boolean hasLvlUp(double prelvl) 
 	{
 		long preParti = (long) prelvl + 1;
+		System.out.println("haslvled:"+ this.current +">="+ preParti +"="+ (this.current >= preParti));
 		return this.current >= preParti;
 	}
 

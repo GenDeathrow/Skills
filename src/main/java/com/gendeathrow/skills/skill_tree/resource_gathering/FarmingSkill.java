@@ -1,11 +1,9 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
@@ -15,14 +13,12 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
-import com.gendeathrow.skills.common.SkillTrackerData;
-import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.skill_tree.helper.ISkill;
 
-public class FarmingSkill extends SkillTreeBase
+public class FarmingSkill extends ResourceGatheringBase implements ISkill
 {
 
 	private static final SkillDifficulty useHoe= new SkillDifficulty("useHoe").setDifficulty(0).setSkill("farming");
@@ -37,25 +33,19 @@ public class FarmingSkill extends SkillTreeBase
 	}
 	
 	@Override
-	public String getLocName() 
+	public String LocalizedName() 
 	{
-		return StatCollector.translateToLocal("skill.farming.name");
+		return "skill.farming.name";
 	}
 
 	@Override
-	public String getULN() 
+	public String ULN() 
 	{
 		return "farming";
 	}
 
 	@Override
-	public String getCat() 
-	{
-		return StatCollector.translateToLocal("skill.cat.resources");
-	}
-
-	@Override
-	public String getDescription() 
+	public String Description() 
 	{
 		return "null";
 	}

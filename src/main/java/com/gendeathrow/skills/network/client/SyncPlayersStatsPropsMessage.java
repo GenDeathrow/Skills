@@ -8,10 +8,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.network.AbstractMessage.AbstractClientMessage;
 
-public class SyncPlayersSkillPropsMessage  extends AbstractClientMessage<SyncPlayersSkillPropsMessage>
+public class SyncPlayersStatsPropsMessage  extends AbstractClientMessage<SyncPlayersStatsPropsMessage>
 {
 	// Previously, we've been writing each field in our properties one at a time,
 	// but that is really annoying, and we've already done it in the save and load
@@ -23,16 +24,16 @@ public class SyncPlayersSkillPropsMessage  extends AbstractClientMessage<SyncPla
 	private NBTTagCompound data;
 
 	// The basic, no-argument constructor MUST be included to use the new automated handling
-	public SyncPlayersSkillPropsMessage() {}
+	public SyncPlayersStatsPropsMessage() {}
 
 	// We need to initialize our data, so provide a suitable constructor:
-	public SyncPlayersSkillPropsMessage(EntityPlayer player) 
+	public SyncPlayersStatsPropsMessage(EntityPlayer player) 
 	{
 		// create a new tag compound
 		data = new NBTTagCompound();
 	
 		// and save our player's data into it
-		SkillTrackerData.get(player).saveNBTData(data);
+		StatTrackerData.get(player).saveNBTData(data);
 	}
 
 	@Override
@@ -49,6 +50,6 @@ public class SyncPlayersSkillPropsMessage  extends AbstractClientMessage<SyncPla
 	public void process(EntityPlayer player, Side side) {
 		// now we can just load the NBTTagCompound data directly; one and done, folks
 		Skillz.logger.info("Synchronizing extended properties data on CLIENT");
-		SkillTrackerData.get(player).loadNBTData(data);
+		StatTrackerData.get(player).loadNBTData(data);
 	}
 }

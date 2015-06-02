@@ -4,10 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.FishingHooks.FishableCategory;
 
-import com.gendeathrow.skills.common.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 
-public class FishingSkill extends SkillTreeBase
+public class FishingSkill extends ResourceGatheringBase implements ISkill
 {
 
 	/*
@@ -24,25 +25,19 @@ public class FishingSkill extends SkillTreeBase
 	}
 
 	@Override
-	public String getLocName() 
+	public String LocalizedName() 
 	{
 		return StatCollector.translateToLocal("skill.fishing.name");
 	}
 
 	@Override
-	public String getULN() 
+	public String ULN() 
 	{
 		return "fishing";
 	}
 
 	@Override
-	public String getCat() 
-	{
-		return StatCollector.translateToLocal("skill.cat.resource");
-	}
-
-	@Override
-	public String getDescription() 
+	public String Description() 
 	{
 		return "null";
 	}

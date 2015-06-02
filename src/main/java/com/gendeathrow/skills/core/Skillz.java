@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import org.apache.logging.log4j.Logger;
 
+import com.gendeathrow.skills.client.keybinds.SkillzKeybinds;
 import com.gendeathrow.skills.core.proxies.CommonProxy;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
@@ -61,7 +62,7 @@ public class Skillz
 	    public void init(FMLInitializationEvent event)
 	    {
 			EntityRegistry.registerModEntity(SK_FishHook.class, "skfishinghook", 10, Skillz.instance, 64, 1, true);
-
+			
 	    	proxy.init(event);
 	    }
 	    @EventHandler

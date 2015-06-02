@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.gendeathrow.skills.common.EventHandler;
-import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.core.Skillz;
 
 public class CommonProxy {

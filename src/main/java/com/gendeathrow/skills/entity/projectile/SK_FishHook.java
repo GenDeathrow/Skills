@@ -37,8 +37,8 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.gendeathrow.skills.common.SkillTrackerData;
-import com.gendeathrow.skills.common.Skill_TrackerManager;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.Skill_TrackerManager;
 import com.gendeathrow.skills.items.SK_FishingRod;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FishingSkill;
 
@@ -100,7 +100,7 @@ public class SK_FishHook extends Entity implements IEntityAdditionalSpawnData
         this.setPosition(p_i1765_2_, p_i1765_4_, p_i1765_6_);
         this.ignoreFrustumCheck = true;
         this.angler = p_i1765_8_;
-        this.tracker = Skill_TrackerManager.lookupTracker(p_i1765_8_);
+        this.tracker = SkillTrackerData.get(p_i1765_8_);
         this.tracker.fishingEntity = this;
     }
 
@@ -114,7 +114,7 @@ public class SK_FishHook extends Entity implements IEntityAdditionalSpawnData
         this.angler = fishingPlayer;
         
         if(worldIn.isRemote) System.out.println(this.angler.getName() + "<client");
-        this.tracker = Skill_TrackerManager.lookupTracker(fishingPlayer);
+        this.tracker =  SkillTrackerData.get(fishingPlayer);
         this.tracker.fishingEntity = this;
         this.setSize(0.25F, 0.25F);
         this.setLocationAndAngles(fishingPlayer.posX, fishingPlayer.posY + (double)fishingPlayer.getEyeHeight(), fishingPlayer.posZ, fishingPlayer.rotationYaw, fishingPlayer.rotationPitch);

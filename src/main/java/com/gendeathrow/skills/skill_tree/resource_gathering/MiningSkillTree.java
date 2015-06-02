@@ -1,7 +1,5 @@
 package com.gendeathrow.skills.skill_tree.resource_gathering;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
@@ -10,12 +8,13 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
-import com.gendeathrow.skills.common.SkillTrackerData;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.utils.ChatHelper;
 
-public class MiningSkillTree extends SkillTreeBase
+public class MiningSkillTree extends ResourceGatheringBase implements ISkill
 {
 	
 	public MiningSkillTree(SkillTrackerData tracker)
@@ -29,24 +28,19 @@ public class MiningSkillTree extends SkillTreeBase
 	private boolean noDrops;
 
 	@Override
-	public String getLocName() {
-		return StatCollector.translateToLocal("skill.mining.name");
+	public String LocalizedName() 
+	{
+		return "skill.mining.name";
 	}
 
 	@Override
-	public String getULN() {
+	public String ULN() {
 		return "mining";
 	}
 
 	@Override
-	public String getDescription() {
+	public String Description() {
 		return "Null";
-	}
-
-
-	@Override
-	public String getCat() {
-		return StatCollector.translateToLocal("skill.cat.resources");
 	}
 
 	@Override
@@ -55,7 +49,7 @@ public class MiningSkillTree extends SkillTreeBase
 		if(event instanceof PlayerEvent.BreakSpeed)
 		{
 			PlayerEvent.BreakSpeed newevent = (PlayerEvent.BreakSpeed)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 						
 			float bonusSpeed = this.getBonusFactor(50, 10, .05);
 			bonusSpeed = bonusSpeed < 0 ? 0 : bonusSpeed;
@@ -78,7 +72,7 @@ public class MiningSkillTree extends SkillTreeBase
 		}else if(event instanceof BlockEvent.BreakEvent)
 		{
 			BlockEvent.BreakEvent newevent = (BlockEvent.BreakEvent)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 
 			SkillDifficulty difficulty = SkillDifficulty.getBlockDifficulty(newevent.state);
 			if(difficulty == null) return;	
@@ -99,7 +93,7 @@ public class MiningSkillTree extends SkillTreeBase
 		else if(event instanceof BlockEvent.HarvestDropsEvent)
 		{
 			BlockEvent.HarvestDropsEvent newevent = (BlockEvent.HarvestDropsEvent)event;
-			if(!this.isCorrectSkill(newevent.state)) return;
+			if(!this.isCorrectSkill(newevent.state, this.getULN())) return;
 			
 			BlockPos pos = newevent.pos;
 			if((this.success == 0 && pos == this.lastblock) || this.noDrops == true)

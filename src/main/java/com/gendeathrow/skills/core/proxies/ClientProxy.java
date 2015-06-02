@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.gendeathrow.skills.client.gui.GuiManager;
 import com.gendeathrow.skills.client.gui.UpdateNotification;
+import com.gendeathrow.skills.client.keybinds.SkillzKeybinds;
 import com.gendeathrow.skills.client.render.renderFishing;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
@@ -82,6 +83,14 @@ public class ClientProxy extends CommonProxy {
 		UpdateNotification updateManager = new UpdateNotification();
 		MinecraftForge.EVENT_BUS.register(updateManager);
 		FMLCommonHandler.instance().bus().register(updateManager);
+		
+		SkillzKeybinds keybindManager = new SkillzKeybinds();
+		keybindManager.register();
+		
+		MinecraftForge.EVENT_BUS.register(keybindManager);
+		FMLCommonHandler.instance().bus().register(keybindManager);
+
+
 		
 		super.registerEventHandlers();
 	}

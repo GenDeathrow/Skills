@@ -2,8 +2,9 @@ package com.gendeathrow.skills.skill_tree.helper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+import com.gendeathrow.skills.skill_tree.combat.SwordSkill;
+import com.gendeathrow.skills.skill_tree.combat.TacticsSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FarmingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FishingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.LumberJackSkill;
@@ -19,6 +20,7 @@ public class SkillTree_Manager
 	
 	public HashMap<String,Class<?>> SkillList;
 	
+	public ArrayList CategoryList = new ArrayList();
 	
 	public SkillTree_Manager()
 	{
@@ -27,11 +29,16 @@ public class SkillTree_Manager
 		this.SkillList.put("lumberjacking", LumberJackSkill.class);
 		this.SkillList.put("fishing", FishingSkill.class);
 		this.SkillList.put("farming", FarmingSkill.class);
+		
+		this.SkillList.put("swords", SwordSkill.class);
+		this.SkillList.put("tactics", TacticsSkill.class);
 	}
 	
-	public void RegisterSkill(Class<?> className, String SkillName)
+	public void RegisterSkill(String SkillName, String Category, Class<?> className)
 	{	
 		this.SkillList.put(SkillName, className);
+		
+		this.CategoryList.add(Category);
 	}
 	
 }

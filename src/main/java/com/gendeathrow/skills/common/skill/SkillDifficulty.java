@@ -1,9 +1,8 @@
-package com.gendeathrow.skills.common;
+package com.gendeathrow.skills.common.skill;
 
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 

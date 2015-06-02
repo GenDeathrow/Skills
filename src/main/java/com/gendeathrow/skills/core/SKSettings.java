@@ -2,7 +2,7 @@ package com.gendeathrow.skills.core;
 
 import java.util.HashMap;
 
-import com.gendeathrow.skills.common.SkillDifficulty;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
 
 public class SKSettings 
 {
