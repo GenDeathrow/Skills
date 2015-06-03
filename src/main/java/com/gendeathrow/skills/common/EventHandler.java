@@ -5,6 +5,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -116,6 +117,7 @@ public class EventHandler
 	@SubscribeEvent
 	public void onAttackEntity(AttackEntityEvent event)
 	{
+		System.out.println(event.entityPlayer);
 		onEvent(event.entityPlayer, event);
 	}
 	
@@ -159,11 +161,16 @@ public class EventHandler
 	public void onLivingAttack(LivingAttackEvent event)
 	{
 
-		if(event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer)
+		if(event.source.getSourceOfDamage() instanceof EntityArrow)
 		{
-			System.out.println(event.source.getEntity().getName());
-			onEvent(event.source.getEntity(), event);
+			onEvent(((EntityArrow)event.source.getSourceOfDamage()).shootingEntity, event);
 		}
+//
+//		if(event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer)
+//		{
+//			System.out.println(event.source.getEntity().getName());
+//			onEvent(event.source.getEntity(), event);
+//		}
 	}
 	
 	@SubscribeEvent
@@ -172,7 +179,6 @@ public class EventHandler
 
 		if(event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer)
 		{
-			System.out.println(event.source.getEntity().getName());
 			onEvent(event.source.getEntity(), event);
 		}
 	}

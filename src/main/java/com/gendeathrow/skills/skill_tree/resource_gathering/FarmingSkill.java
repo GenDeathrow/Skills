@@ -17,6 +17,8 @@ import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class FarmingSkill extends ResourceGatheringBase implements ISkill
 {
@@ -50,6 +52,17 @@ public class FarmingSkill extends ResourceGatheringBase implements ISkill
 		return "null";
 	}
 
+
+	@Override
+	public EnumStats PrimaryStat() {
+			return EnumHelper.EnumStats.Wisdom;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Strength;
+	}
+	
 	@Override
 	public void onEvent(Object event) 
 	{
@@ -191,5 +204,6 @@ public class FarmingSkill extends ResourceGatheringBase implements ISkill
 			event.setCanceled(true);
 		}
 	}
+
 
 }

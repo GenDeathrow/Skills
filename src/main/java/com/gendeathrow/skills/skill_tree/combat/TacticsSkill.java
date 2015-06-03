@@ -2,6 +2,8 @@ package com.gendeathrow.skills.skill_tree.combat;
 
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class TacticsSkill extends CombatBase  implements ISkill
 {
@@ -29,9 +31,21 @@ public class TacticsSkill extends CombatBase  implements ISkill
 		return "null";
 	}
 	
+	@Override
+	public EnumStats PrimaryStat() {
+		return EnumHelper.EnumStats.Intelligence;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Wisdom;
+	}
+	
 	public float getCombatMod()
 	{		
 		return (float) ((this.current < 1 ? 1 : this.current ) * 1.7) / 100;
 	}
+
+
 
 }

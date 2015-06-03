@@ -7,6 +7,8 @@ import net.minecraftforge.common.FishingHooks.FishableCategory;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class FishingSkill extends ResourceGatheringBase implements ISkill
 {
@@ -40,6 +42,16 @@ public class FishingSkill extends ResourceGatheringBase implements ISkill
 	public String Description() 
 	{
 		return "null";
+	}
+
+	@Override
+	public EnumStats PrimaryStat() {
+			return EnumHelper.EnumStats.Dexterity;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Wisdom;
 	}
 
 	@Override

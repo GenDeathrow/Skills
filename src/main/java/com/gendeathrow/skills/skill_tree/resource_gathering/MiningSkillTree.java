@@ -13,6 +13,8 @@ import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.utils.ChatHelper;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class MiningSkillTree extends ResourceGatheringBase implements ISkill
 {
@@ -43,6 +45,17 @@ public class MiningSkillTree extends ResourceGatheringBase implements ISkill
 		return "Null";
 	}
 
+
+	@Override
+	public EnumStats PrimaryStat() {
+			return EnumHelper.EnumStats.Strength;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Dexterity;
+	}
+	
 	@Override
 	public void onEvent(Object event) 
 	{
@@ -65,7 +78,7 @@ public class MiningSkillTree extends ResourceGatheringBase implements ISkill
 			}
 			else
 			{
-				ChatHelper.instance.trySend(newevent.entityPlayer, this, "Your Skill needs to be "+ this.getMinLvl(difficulty , miningBonus));
+				ChatHelper.instance.onSkillUsed(newevent.entityPlayer, this, "Your Skill needs to be "+ this.getMinLvl(difficulty , miningBonus));
 				newevent.newSpeed = .25f;
 			}
 			

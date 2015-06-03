@@ -12,6 +12,8 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class LumberJackSkill extends ResourceGatheringBase implements ISkill
 {
@@ -41,6 +43,16 @@ public class LumberJackSkill extends ResourceGatheringBase implements ISkill
 	public String Description() 
 	{
 		return "Null";
+	}
+
+	@Override
+	public EnumStats PrimaryStat() {
+			return EnumHelper.EnumStats.Dexterity;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Strength;
 	}
 
 	@Override

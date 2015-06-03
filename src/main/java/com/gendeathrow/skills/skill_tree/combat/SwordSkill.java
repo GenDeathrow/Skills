@@ -3,7 +3,6 @@ package com.gendeathrow.skills.skill_tree.combat;
 import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -12,6 +11,9 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
+import com.gendeathrow.skills.utils.ChatHelper;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class SwordSkill extends CombatBase implements ISkill
 {
@@ -20,6 +22,8 @@ public class SwordSkill extends CombatBase implements ISkill
 	{
 		super(tracker);
 	}
+
+
 
 	@Override
 	public String LocalizedName() 
@@ -39,6 +43,17 @@ public class SwordSkill extends CombatBase implements ISkill
 		return "null";
 	}
 
+	@Override
+	public EnumStats PrimaryStat() {
+		return EnumHelper.EnumStats.Strength;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Dexterity;
+	}
+
+	
 	@Override
 	public void onEvent(Object event) 
 	{
@@ -69,7 +84,7 @@ public class SwordSkill extends CombatBase implements ISkill
 		if(event instanceof LivingHurtEvent)
 		{
 			LivingHurtEvent newEvent = (LivingHurtEvent) event;
-			System.out.println("LastHit"+ this.lastGain != null ? this.lastHit.getName() : "null");
+			//System.out.println("LastHit"+ this.lastHit != null ? this.lastHit.getName() : "null");
 			if(this.lastHit != null && this.lastHit == newEvent.entity)
 			{
 				EntityPlayer player = (EntityPlayer) newEvent.source.getEntity();
@@ -91,7 +106,9 @@ public class SwordSkill extends CombatBase implements ISkill
 				
 				damage = Math.round(damage) == 0 ? 1 : Math.round(damage);
 				
-				System.out.println( "WeaponRoll:"+(((newEvent.ammount / 100)*randomRoll)*100) + " + (Str)"+ addStr + "*" + TacticModifier);
+				ChatHelper.instance.CombatChat(player, this.lastHit, (int) damage, (int)newEvent.ammount);
+				
+				System.out.println( "WeaponRoll:"+(((newEvent.ammount / 100)*randomRoll)*100) + " + (Str)"+ addStr + "* (TacticsModifier)" + TacticModifier);
 				
 				System.out.println("New Damage:" + Math.round(damage) +" - Old Damage:"+ newEvent.ammount + " mod:"+ TacticModifier);
 

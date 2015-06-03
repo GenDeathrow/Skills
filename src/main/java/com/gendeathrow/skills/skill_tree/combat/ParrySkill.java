@@ -3,8 +3,10 @@ package com.gendeathrow.skills.skill_tree.combat;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
-public class ParrySkill extends SkillTreeBase implements ISkill
+public class ParrySkill extends CombatBase implements ISkill
 {
 
 	public ParrySkill(SkillTrackerData tracker) 
@@ -13,26 +15,35 @@ public class ParrySkill extends SkillTreeBase implements ISkill
 	}
 
 	@Override
-	public String LocalizedName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String LocalizedName()
+	{
+		return "skill.parry.name";
 	}
 
 	@Override
 	public String ULN() {
-		// TODO Auto-generated method stub
-		return null;
+		return "parry";
 	}
 
 	@Override
-	public String Description() {
-		// TODO Auto-generated method stub
-		return null;
+	public String Description() 
+	{
+		return "";
+	}
+	
+	@Override
+	public EnumStats PrimaryStat() {
+		return EnumHelper.EnumStats.Dexterity;
 	}
 
 	@Override
-	public void onEvent(Object event) {
-		// TODO Auto-generated method stub
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Strength;
+	}
+
+	@Override
+	public void onEvent(Object event) 
+	{
 		
 	}
 

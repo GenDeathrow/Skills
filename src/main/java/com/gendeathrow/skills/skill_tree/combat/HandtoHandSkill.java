@@ -3,6 +3,8 @@ package com.gendeathrow.skills.skill_tree.combat;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
+import com.gendeathrow.skills.utils.EnumHelper;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class HandtoHandSkill extends SkillTreeBase implements ISkill
 {
@@ -33,6 +35,16 @@ public class HandtoHandSkill extends SkillTreeBase implements ISkill
 	public void onEvent(Object event) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public EnumStats PrimaryStat() {
+		return EnumHelper.EnumStats.Dexterity;
+	}
+
+	@Override
+	public EnumStats SecondaryStat() {
+		return EnumHelper.EnumStats.Strength;
 	}
 
 }
