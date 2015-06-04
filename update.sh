@@ -37,7 +37,7 @@ grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
 #Move back to wiki to update
 cd ./wiki
 
-full_download_link="${download_link}${newversion}"
+full_download_link="${download_link}${newversion}.jar"
 full_build_link="${build_link}${DRONE_BUILD_NUMBER}"
 
 echo ${full_download_link}
@@ -61,6 +61,8 @@ echo grep -lR - e "\[downloads\-1\.8\]:.*" *
 grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s#\[build\-1\.8\]:.*#\[build\-1\.8\]: ${full_build_link}#g"
 
 
+https://drone.io/github.com/GenDeathrow/Skills/files/build/libs/Skillz-0.1.11.jar
+https://drone.io/github.com/GenDeathrow/Skills/files/build/libs/Skillz-0.1.11
 
 #Commit the new page
 git add .
