@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.gendeathrow.skills.skill_tree.combat.Archery;
+import com.gendeathrow.skills.skill_tree.combat.HandtoHandSkill;
 import com.gendeathrow.skills.skill_tree.combat.ParrySkill;
 import com.gendeathrow.skills.skill_tree.combat.SwordSkill;
 import com.gendeathrow.skills.skill_tree.combat.TacticsSkill;
@@ -37,6 +38,7 @@ public class SkillTree_Manager
 		this.SkillList.put("tactics", TacticsSkill.class);
 		this.SkillList.put("parry", ParrySkill.class);
 		this.SkillList.put("archery", Archery.class);
+		this.SkillList.put("melee", HandtoHandSkill.class);
 	}
 	
 	public void RegisterSkill(String SkillName, String Category, Class<?> className)
