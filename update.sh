@@ -50,13 +50,16 @@ grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_tex
 grep -lR -e "<build>.*<\/build>" *| xargs sed -i "s/<build>.*<\/build>/<build>Patch<\/build>/g"
 
 #Replace old date with new one
-grep -lR -e "<${date_text}>.*</${date_text}>" * | xargs sed -i "s/<${date_text}>.*<\/${date_text}>/<${date_text}>${cur_date}<\/${date_text}>/g"
+grep -lR -e "<${date_text}>.*</${date_text}>" * | xarg sed -i "s/<${date_text}>.*<\/${date_text}>/<${date_text}>${cur_date}<\/${date_text}>/g"
 
 #Replace old download link with new one
-grep -lR -e "\[downloads\-1\.8\]:.*" * | xargs sed -i "s/\[downloads\-1\.8\]:.*/\[downloads\-1\.8\]: ${full_download_link}/g"
+grep -lR -e "\[downloads\-1\.8\]:.*" * | xargs sed -i "s#\[downloads\-1\.8\]:.*#\[downloads\-1\.8\]: ${full_download_link}#g"
+
+echo grep -lR - e "\[downloads\-1\.8\]:.*" *
 
 #Replace old build link with new one
-grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s/\[build\-1\.8\]:.*/\[build\-1\.8\]: ${full_build_link}/g"
+grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s#\[build\-1\.8\]:.*#\[build\-1\.8\]: ${full_build_link}#g"
+
 
 
 #Commit the new page
