@@ -37,8 +37,11 @@ grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
 #Move back to wiki to update
 cd ./wiki
 
-download_link="${download_link}${newversion}"
-build_link="${build_link}${DRONE_BUILD_NUMBER}"
+full_download_link="${download_link}${newversion}"
+full_build_link="${build_link}${DRONE_BUILD_NUMBER}"
+
+echo ${full_download_link}
+echo ${full_build_link}
 
 # Replace with update version in  wiki
 grep -lR -e "<${build_text}>.*<\/${build_text}>" *| xargs sed -i "s/<${build_text}>.*<\/${build_text}>/<${build_text}>${newversion}<\/${build_text}>/g"
@@ -50,10 +53,10 @@ grep -lR -e "<build>.*<\/build>" *| xargs sed -i "s/<build>.*<\/build>/<build>Pa
 grep -lR -e "<${date_text}>.*</${date_text}>" * | xargs sed -i "s/<${date_text}>.*<\/${date_text}>/<${date_text}>${cur_date}<\/${date_text}>/g"
 
 #Replace old download link with new one
-grep -lR -e "\[downloads\-1\.8\]:.*" * | xargs sed -i "s/\[downloads\-1\.8\]:.*/\[downloads\-1\.8\]: ${download_link}/g"
+grep -lR -e "\[downloads\-1\.8\]:.*" * | xargs sed -i "s/\[downloads\-1\.8\]:.*/\[downloads\-1\.8\]: ${full_download_link}/g"
 
 #Replace old build link with new one
-grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s/\[build\-1\.8\]:.*/\[build\-1\.8\]: ${build_link}/g"
+grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s/\[build\-1\.8\]:.*/\[build\-1\.8\]: ${full_build_link}/g"
 
 
 #Commit the new page
