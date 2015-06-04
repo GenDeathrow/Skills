@@ -14,11 +14,14 @@ public class EntityMobsExt implements IExtendedEntityProperties
 	public final static String EXT_PROP_NAME = "RPG_Mob_Tracker";
 	
 	public int parry;
+	public int attack;
+	
 	public EntityMobsExt(EntityMob mob)
 	{
 //		mob.getAge();
 //		mob.getMaxHealth();
 		this.parry = 25;
+		this.attack = 25;
 	}
 	
 	public static void register(EntityMob mob)

@@ -212,9 +212,6 @@ public class SkillTrackerData implements IExtendedEntityProperties
 	
 	public void copy(SkillTrackerData props) 
 	{
-//		inventory.copy(props.inventory);
-//		player.getDataWatcher().updateObject(MANA_WATCHER, props.getCurrentMana());
-//		maxMana = props.maxMana;
-//		manaRegenTimer = props.manaRegenTimer;
+		PlayerSkills = props.PlayerSkills;
 	}
 }

@@ -117,7 +117,6 @@ public class EventHandler
 	@SubscribeEvent
 	public void onAttackEntity(AttackEntityEvent event)
 	{
-		System.out.println(event.entityPlayer);
 		onEvent(event.entityPlayer, event);
 	}
 	
@@ -165,12 +164,11 @@ public class EventHandler
 		{
 			onEvent(((EntityArrow)event.source.getSourceOfDamage()).shootingEntity, event);
 		}
-//
-//		if(event.source.getEntity() != null && event.source.getEntity() instanceof EntityPlayer)
-//		{
-//			System.out.println(event.source.getEntity().getName());
-//			onEvent(event.source.getEntity(), event);
-//		}
+		else if(event.entity instanceof EntityPlayer)
+		{
+			onEvent(event.entity, event);
+		}
+		
 	}
 	
 	@SubscribeEvent

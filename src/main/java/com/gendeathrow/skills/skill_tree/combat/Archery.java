@@ -87,20 +87,21 @@ public class Archery extends CombatBase implements ISkill
 				
 				StatTrackerData playerStats = StatTrackerData.get(player);
 				
-				float addDEX = (float) (playerStats.Dexterity * 0.025);
+				//Dex shouldn't add dmg, new arrows should
+				//float addDEX = (float) (playerStats.Dexterity * 0.025);
 				
 				//TODO Tactics
 				float TacticModifier = (this.tracker.GetSkillByID("tactics").getBonusFactor(0, 1, 1.7) + 50) / 100; // static 100%
 				
 				float randomRoll = rand.nextFloat();
-				
-				float damage = Math.round(((((newEvent.ammount / 100)*randomRoll)*100) + addDEX) * TacticModifier);
+				//TODO Replace 0 with added arrow dmg
+				float damage = Math.round(((((newEvent.ammount / 100)*randomRoll)*100) + 0) * TacticModifier);
 				
 				damage = Math.round(damage) == 0 ? 1 : Math.round(damage);
 				
 				ChatHelper.instance.CombatChat(player, this.lastHit, (int) damage, (int)newEvent.ammount);
-				
-				System.out.println( "WeaponRoll:"+(((newEvent.ammount / 100)*randomRoll)*100) + " + (dex)"+ addDEX + "* (TacticsModifier)" + TacticModifier);
+				//TODO Replace 0 with added arrow dmg
+				System.out.println( "WeaponRoll:"+(((newEvent.ammount / 100)*randomRoll)*100) + " + (extraDmg)"+ 0 + "* (TacticsModifier)" + TacticModifier);
 				
 				System.out.println("New Damage:" + Math.round(damage) +" - Old Damage:"+ newEvent.ammount + " mod:"+ TacticModifier);
 
