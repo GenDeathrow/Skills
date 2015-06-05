@@ -12,6 +12,7 @@ import net.minecraft.util.StatCollector;
 
 import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.core.SKSettings;
 import com.gendeathrow.skills.utils.MathHelper;
 
@@ -260,6 +261,11 @@ public abstract class SkillTreeBase
 			}
 			else {System.out.println("Suspended to change skill"); this.suspendGain = true;}
 		}
+		
+		System.out.println("Attempting to Gain Stat");
+		
+		StatTrackerData playerStats = StatTrackerData.get(this.tracker.trackedEntity);
+		playerStats.AttemptStatGain(playerStats.Strength, playerStats.Dexterity);
 		
 		this.current = MathHelper.round(this.current, 2);
 		return formula;

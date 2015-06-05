@@ -34,6 +34,9 @@ grep -lRr -e $ver_key * | xargs sed -i "s/$ver_key/$newversion/g"
 
 . ./make_logs
 
+#upload Curse
+. ./curse_upload
+
 #Move back to wiki to update
 cd ./wiki
 
@@ -59,10 +62,6 @@ echo grep -lR - e "\[downloads\-1\.8\]:.*" *
 
 #Replace old build link with new one
 grep -lR -e "\[build\-1\.8\]:.*" * | xargs sed -i "s#\[build\-1\.8\]:.*#\[build\-1\.8\]: ${full_build_link}#g"
-
-
-https://drone.io/github.com/GenDeathrow/Skills/files/build/libs/Skillz-0.1.11.jar
-https://drone.io/github.com/GenDeathrow/Skills/files/build/libs/Skillz-0.1.11
 
 #Commit the new page
 git add .

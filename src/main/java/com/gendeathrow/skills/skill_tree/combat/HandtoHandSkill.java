@@ -92,7 +92,7 @@ public class HandtoHandSkill extends CombatBase implements ISkill
 				
 				StatTrackerData playerStats = StatTrackerData.get(player);
 				
-				float addStr = (float) (playerStats.Strength * 0.05);
+				float addStr = (float) (playerStats.Strength.getValue() * 0.05);
 				
 				//TODO Tactics
 				float TacticModifier = (this.tracker.GetSkillByID("tactics").getBonusFactor(0, 1, 1.7) + 50) / 100; // static 100%

@@ -13,6 +13,13 @@ skill.parry.name=Parry
 skill.melee.name=Hand to Hand
 skill.tactics.name=Combat Tactics
 
+stat.dex.name=Dexterity
+stat.str.name=Strength
+stat.int.name=Intelligence
+stat.wis.name=Wisdom
+stat.con.name=Constitution
+
+
 updatemsg.skillz.available=Update %s of RPG Skillz is available
 updatemsg.skillz.download=Download & Changelog:
 updatemsg.skillz.uptodate=RPG Skillz %s is up to date

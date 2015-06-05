@@ -51,6 +51,7 @@ public class EventHandler
 	public void onClonePlayer(PlayerEvent.Clone event) {
 		Skillz.logger.info("Cloning player extended properties");
 		SkillTrackerData.get(event.entityPlayer).copy(SkillTrackerData.get(event.original));
+		StatTrackerData.get(event.entityPlayer).copy(StatTrackerData.get(event.original));
 	}
 	
 	@SubscribeEvent
