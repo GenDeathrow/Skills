@@ -8,7 +8,7 @@ CHANGE_LOG=`git log -1 --pretty=format:"%B"`
 CURSE_ID=`echo "231266"`
 
 #See https://github.com/curseforge/api for how to retrieve game version numbers
-JSON=`printf '{"changelog": "%s", "gameVersions": [4449], "releaseType": "release"}' "$CHANGE_LOG"`
+JSON=`printf '{"changelog": "%s", "gameVersions": [4455], "releaseType": "alpha"}' "$CHANGE_LOG"`
 
 echo "Uploading $FILE_NAME to Curse Forge..."
 echo
