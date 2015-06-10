@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.network.client.SyncPlayersSkillPropsMessage;
+import com.gendeathrow.skills.network.client.SyncPlayersStatsPropsMessage;
 
 
 /**
@@ -48,6 +49,7 @@ public class PacketDispatcher
 	public static final void registerPackets() {
 		// Packets handled on CLIENT
 		registerMessage(SyncPlayersSkillPropsMessage.class);
+		registerMessage(SyncPlayersStatsPropsMessage.class);
 
 		// Packets handled on SERVER
 		//registerMessage(OpenGuiMessage.class);

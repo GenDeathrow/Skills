@@ -11,19 +11,22 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
 import org.apache.logging.log4j.Level;
 
+import com.gendeathrow.skills.common.stat.StatTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData.PlayerStat;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.network.PacketDispatcher;
 import com.gendeathrow.skills.network.client.SyncPlayersSkillPropsMessage;
+import com.gendeathrow.skills.network.client.SyncPlayersStatsPropsMessage;
+import com.gendeathrow.skills.skill_tree.helper.ISkillCat;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 
 public class SkillTrackerData implements IExtendedEntityProperties
@@ -96,7 +99,22 @@ public class SkillTrackerData implements IExtendedEntityProperties
 		{
 			Skillz.logger.info("Data Changed Updating Client");
 			PacketDispatcher.sendTo(new SyncPlayersSkillPropsMessage((EntityPlayer) entity), (EntityPlayerMP) entity);
-		}	
+		}
+		
+		if (entity instanceof EntityPlayerMP) 
+		{
+			markedForSave = false;
+			Iterator<Entry<EnumStats, PlayerStat>> StatList = StatTrackerData.get(this.trackedEntity).PlayerStats.entrySet().iterator();
+			
+			while(StatList.hasNext())
+			{
+				 PlayerStat stat = StatList.next().getValue();
+				 
+				 if(stat.isDirty()) markedForSave = true;
+			}
+			if(markedForSave) PacketDispatcher.sendTo(new SyncPlayersStatsPropsMessage((EntityPlayer) entity), (EntityPlayerMP) entity);
+		}
+
 	}
 	
 	public static float getTotalSkillPoints(EntityPlayer player)
@@ -149,7 +167,7 @@ public class SkillTrackerData implements IExtendedEntityProperties
 			SkillTreeBase skill = it.next();
 			
 			// If network is true, and it is not marked for dirty move to next skill
-			if(isNetworkMessage && !skill.isDirty()) continue;
+			//if(isNetworkMessage && !skill.isDirty()) continue;
 		
 			NBTTagCompound skillNBT = new NBTTagCompound();
 			
@@ -176,6 +194,7 @@ public class SkillTrackerData implements IExtendedEntityProperties
 		{
 			SkillTreeBase skill = it.next();
 			
+			//if(skill instanceof ISkillCat) continue;
 			// If network is true, and it is not marked for dirty move to next skill
 			//if(isNetworkMessage && !skill.markedDirty()) continue;
 			System.out.print(skill.getULN());

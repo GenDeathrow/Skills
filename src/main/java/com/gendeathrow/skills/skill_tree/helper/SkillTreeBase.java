@@ -13,6 +13,7 @@ import net.minecraft.util.StatCollector;
 import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData.PlayerStat;
 import com.gendeathrow.skills.core.SKSettings;
 import com.gendeathrow.skills.utils.MathHelper;
 
@@ -98,6 +99,15 @@ public abstract class SkillTreeBase
 		return((ISkillCat)this).getCatDescription();
 	}
 	
+	public PlayerStat getPrimarySkill()
+	{
+		return StatTrackerData.get(this.tracker.trackedEntity).getStatbyEnum(((ISkill)this).PrimaryStat());
+	}
+
+	public PlayerStat getSecondarySkill()
+	{
+		return StatTrackerData.get(this.tracker.trackedEntity).getStatbyEnum(((ISkill)this).SecondaryStat());
+	}
 	/**
 	 * Get a Random skill point number for gaining a skill point
 	 * 
@@ -265,7 +275,7 @@ public abstract class SkillTreeBase
 		System.out.println("Attempting to Gain Stat");
 		
 		StatTrackerData playerStats = StatTrackerData.get(this.tracker.trackedEntity);
-		playerStats.AttemptStatGain(playerStats.Strength, playerStats.Dexterity);
+		playerStats.AttemptStatGain(this.getPrimarySkill(), this.getSecondarySkill());
 		
 		this.current = MathHelper.round(this.current, 2);
 		return formula;
@@ -297,8 +307,7 @@ public abstract class SkillTreeBase
 	 * @return
 	 */
 	public double getChance(SkillDifficulty skdiff)
-	{
-		
+	{		
 		int bonus = 100;
 		double offset = .1;
 		double chance = ((this.getSkillLevel() - (skdiff.difficulty - (bonus/2)))/bonus);

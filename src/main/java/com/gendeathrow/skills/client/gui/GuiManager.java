@@ -3,6 +3,7 @@ package com.gendeathrow.skills.client.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -13,8 +14,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData;
+import com.gendeathrow.skills.common.stat.StatTrackerData.PlayerStat;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 import com.gendeathrow.skills.utils.RenderAssist;
 
 @SideOnly(Side.CLIENT)
@@ -52,10 +56,56 @@ public class GuiManager
 			return;
 		}
 		
-		//SkillTrackerData tracker = Skill_TrackerManager.lookupTracker(Minecraft.getMinecraft().thePlayer);
+		DrawStat(event);
+		DrawSkill(event);
+		
+		DebugHud.drawSkillDiff(event);
+		
+	}
+	
+	private void DrawStat(RenderGameOverlayEvent.Post event)
+	{
+		StatTrackerData tracker = StatTrackerData.get(Minecraft.getMinecraft().thePlayer);
+		
+		if(tracker == null) return;
+		ArrayList DrawArray = new ArrayList();
+		
+		Iterator<Entry<EnumStats, PlayerStat>> playerStats = tracker.PlayerStats.entrySet().iterator();
+		while (playerStats.hasNext())
+		{
+			 PlayerStat stat = playerStats.next().getValue();
+			 DrawArray.add(stat);
+		}		
+		
+		int boxheight = ((DrawArray.size()+1)* 10)+15 + 15 + 15;
+		//TODO fix the box
+		int boxX = event.resolution.getScaledWidth() - 80;
+		RenderAssist.drawRect(boxX, 5, event.resolution.getScaledWidth() - 5, boxheight, RenderAssist.getColorFromRGBA(173, 173, 173, 145));
+		
+		ScaledResolution res = event.resolution;
+
+		Iterator it2 = DrawArray.iterator();
+		int startY = 10;
+			
+		startY += Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 4;
+		while(it2.hasNext())
+		{
+			PlayerStat stat = (PlayerStat) it2.next();
+			
+		
+			Minecraft.getMinecraft().fontRendererObj.drawString( stat.getLocolizedName() +": "+ stat.getValue(), boxX + 5, startY, Color.black.getRGB());
+			startY += Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 4;
+		}
+		
+	
+	}
+	
+	private void DrawSkill(RenderGameOverlayEvent.Post event)
+	{
 		SkillTrackerData tracker = SkillTrackerData.get(Minecraft.getMinecraft().thePlayer);
 		
 		if(tracker == null) return;
+
 
 		ArrayList DrawArray = new ArrayList();
 		
@@ -94,22 +144,5 @@ public class GuiManager
 		
 		Minecraft.getMinecraft().fontRendererObj.drawString( "Switch Cat 'N'", 10, startY, Color.yellow.getRGB());
 
-		
-//		Iterator<String> it = SkillTree_Manager.instance.SkillList.keySet().iterator();
-//		int startY = 10;
-//		while (it.hasNext())
-//		{
-//			String skillTree = it.next();
-//			
-//			SkillTreeBase skill = tracker.GetSkillByID(skillTree);
-//		
-//			ScaledResolution res = event.resolution;
-//		
-//			Minecraft.getMinecraft().fontRendererObj.drawString( skill.getLocName() +": "+ skill.getSkillLevel(), 10, startY, Color.black.getRGB());
-//			startY += Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 4;
-//		}
-		
-		DebugHud.drawSkillDiff(event);
-		
 	}
 }

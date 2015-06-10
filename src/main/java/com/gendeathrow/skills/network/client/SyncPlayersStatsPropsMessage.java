@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.network.AbstractMessage.AbstractClientMessage;
@@ -49,7 +48,7 @@ public class SyncPlayersStatsPropsMessage  extends AbstractClientMessage<SyncPla
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		// now we can just load the NBTTagCompound data directly; one and done, folks
-		Skillz.logger.info("Synchronizing extended properties data on CLIENT");
+		Skillz.logger.info("Synchronizing extended Player Stats properties data on CLIENT");
 		StatTrackerData.get(player).loadNBTData(data);
 	}
 }

@@ -48,7 +48,7 @@ public class SyncPlayersSkillPropsMessage  extends AbstractClientMessage<SyncPla
 	@Override
 	public void process(EntityPlayer player, Side side) {
 		// now we can just load the NBTTagCompound data directly; one and done, folks
-		Skillz.logger.info("Synchronizing extended properties data on CLIENT");
+		Skillz.logger.info("Synchronizing extended Skill properties data on CLIENT");
 		SkillTrackerData.get(player).loadNBTData(data);
 	}
 }

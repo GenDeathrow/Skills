@@ -36,7 +36,8 @@ public class MiningSkillTree extends ResourceGatheringBase implements ISkill
 	}
 
 	@Override
-	public String ULN() {
+	public String ULN() 
+	{
 		return "mining";
 	}
 
