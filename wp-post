@@ -1,0 +1,14 @@
+echo Creating Dev WordPress Post
+
+CHANGE_LOG=`git log -1 --pretty=format:"%B"`
+
+curl \
+ -H "authorization:  Bearer ${WP_API_KEY}" \
+ --data-urlencode "title=RPGSkillz Update ${newversion}" \
+ --data-urlencode "content= ${CHANGE_LOG}" \
+ --data-urlencode 'tags=RpgSkillz' \
+ --data-urlencode 'categories=Update' \
+ 'https://public-api.wordpress.com/rest/v1.1/sites/gendeathrow.wordpress.com/posts/new/'
+ 
+ 
+

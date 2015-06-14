@@ -68,6 +68,10 @@ git add .
 git commit -m "Updated version"
 git push -u origin master
 
+cd ../
+
+. ./wp-post
+
 
 
 
