@@ -33,6 +33,7 @@ public class GuiManager
 		currentCatDisplay = 0;
 		CatList.add("resource_gathering");
 		CatList.add("combat_skill");
+		CatList.add("crafting_skill");
 	}
 	
 	public static void changeCat()

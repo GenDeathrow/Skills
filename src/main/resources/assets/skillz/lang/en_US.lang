@@ -13,6 +13,10 @@ skill.parry.name=Parry
 skill.melee.name=Hand to Hand
 skill.tactics.name=Combat Tactics
 
+skill.cat.crafting=Crafting
+skill.blacksmiting.name=Blacksmithing
+skill.woodworking.name=Woodworking
+
 stat.dex.name=Dexterity
 stat.str.name=Strength
 stat.int.name=Intelligence

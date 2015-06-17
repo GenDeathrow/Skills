@@ -17,6 +17,7 @@ import net.minecraftforge.event.entity.player.AnvilRepairEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -24,6 +25,7 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
@@ -95,12 +97,6 @@ public class EventHandler
 			SkillTrackerData tracker = SkillTrackerData.get((EntityPlayer)entity);			
 			if(tracker != null)	tracker.sendEvent(entity,event);
 		}	
-	}
-	
-	@SubscribeEvent
-	public void onCrafted(ItemCraftedEvent event) // Prevents exploit of making foods with almost rotten food to prolong total life of food supplies
-	{
-
 	}
 	
 	@SubscribeEvent
@@ -223,4 +219,23 @@ public class EventHandler
 	{
 		onEvent(event.entityPlayer, event);
 	}
+	
+	@SubscribeEvent
+	public void EntityItemPickupEvent(EntityItemPickupEvent event)
+	{
+	}
+	
+	@SubscribeEvent
+	public void onCrafted(ItemCraftedEvent event)
+	{
+		onEvent(event.player, event);
+	}
+	
+
+	@SubscribeEvent
+	public void onSmelt(ItemSmeltedEvent event)
+	{
+		onEvent(event.player, event);
+	}
+
 }

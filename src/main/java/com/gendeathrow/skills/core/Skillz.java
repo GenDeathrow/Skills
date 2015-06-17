@@ -79,17 +79,17 @@ public class Skillz
 		{
 			proxy.postInit(event);
 			
-			RecipeManager.WrapVanillaRecipes();
+			//RecipeManager.WrapVanillaRecipes();
 			
 			//TODO dont really nuderstaND RECIPE SORTER
 			RecipeSorter.INSTANCE.register("RecipeWrapper", RecipeWrapper.class, Category.UNKNOWN, "after:forge:shapelessore");
-			RecipeWrapper test = RecipeHelper.getWrappedRecipefromItemStack(Items.bucket);
+			//RecipeWrapper test = RecipeHelper.getWrappedRecipefromItemStack(Items.bucket);
 			
-			if(test != null)
-			{
-				test.setDifficulty(10).setStat(EnumStats.Strength);
-			}
-			else logger.log(Level.ERROR, "test is null");
+			//if(test != null)
+			//{
+			//	test.setDifficulty(10).setSkill("");
+			//}
+			//else logger.log(Level.ERROR, "test is null");
 			
 			//RecipeHelper.getWrappedRecipefromItemStack(new ItemStack(Items.bucket)).setDifficulty(10).setStat(EnumStats.Strength);
 		}

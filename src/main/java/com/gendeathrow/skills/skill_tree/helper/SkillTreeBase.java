@@ -108,6 +108,7 @@ public abstract class SkillTreeBase
 	{
 		return StatTrackerData.get(this.tracker.trackedEntity).getStatbyEnum(((ISkill)this).SecondaryStat());
 	}
+
 	/**
 	 * Get a Random skill point number for gaining a skill point
 	 * 
