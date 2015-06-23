@@ -42,11 +42,5 @@ public class BowCrafting extends CraftingBase implements ISkill{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void registerRecipes(Item item) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 }

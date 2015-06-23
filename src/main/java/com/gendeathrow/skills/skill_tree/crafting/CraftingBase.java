@@ -9,11 +9,10 @@ import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 public abstract class CraftingBase extends SkillTreeBase implements ISkillCat
 {
 	
-	public abstract void registerRecipes(Item item);
-	
 	public CraftingBase(SkillTrackerData tracker) 
 	{
 		super(tracker);
+		this.setSkillGainDelay(1000);
 	}
 
 	@Override

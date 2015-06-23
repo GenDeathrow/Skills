@@ -15,4 +15,5 @@ public interface ISkill
 	
 	public abstract EnumStats SecondaryStat();
 	
+	
 }

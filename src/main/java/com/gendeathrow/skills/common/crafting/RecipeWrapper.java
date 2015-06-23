@@ -1,10 +1,12 @@
 package com.gendeathrow.skills.common.crafting;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
@@ -33,6 +35,16 @@ public class RecipeWrapper implements IRecipe
 		return this;
 	}
 	
+	public String getSkill()
+	{
+		return this.skill;
+	}
+	
+	public int getDifficulty()
+	{
+		return this.difficulty;
+	}
+	
 	public RecipeWrapper setDifficulty(int diff)
 	{
 		this.difficulty = diff;
@@ -51,8 +63,8 @@ public class RecipeWrapper implements IRecipe
 		Container tmpCon = RecipeHelper.getContainer(invo);		
 		
 		ArrayList<?> crafters = tmpCon == null? null : RecipeHelper.getCrafters(tmpCon);
-		
-		if(!Skillz.proxy.isClient()) return recipe.getCraftingResult(invo);
+
+		//if(!Skillz.proxy.isClient()) return recipe.getCraftingResult(invo);
 		if(crafters != null)
 		{
 			for(Object obj : crafters)
@@ -60,12 +72,13 @@ public class RecipeWrapper implements IRecipe
 				if(obj instanceof EntityPlayer)
 				{
 					SkillTrackerData tracker = SkillTrackerData.get((EntityPlayer)obj);
-					
+	
 					if(this.skill != "" && tracker.GetSkillByID(this.skill) != null)
 					{
+						System.out.println(tracker.GetSkillByID(this.skill).getSkillLevel() +">="+ this.difficulty);
 						 if(tracker.GetSkillByID(this.skill).getSkillLevel() >= this.difficulty)
 						 {
-							 System.out.println(tracker.GetSkillByID("mining").getSkillLevel()+ " < Wanna craft something");
+							 System.out.println(tracker.GetSkillByID(this.skill).getSkillLevel()+ " < Wanna craft something");
 							 return recipe.getCraftingResult(invo);
 						 }
 						 else {System.out.println("crafter skill < difficulty"); return null;}

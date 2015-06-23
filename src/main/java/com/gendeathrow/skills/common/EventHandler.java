@@ -6,6 +6,8 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -18,6 +20,7 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -26,7 +29,10 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.gendeathrow.skills.common.crafting.RecipeWrapper;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.core.Skillz;
@@ -35,6 +41,7 @@ import com.gendeathrow.skills.entity.extended.EntityMobsExt;
 import com.gendeathrow.skills.network.PacketDispatcher;
 import com.gendeathrow.skills.network.client.SyncPlayersSkillPropsMessage;
 import com.gendeathrow.skills.network.client.SyncPlayersStatsPropsMessage;
+import com.gendeathrow.skills.utils.RecipeHelper;
 
 public class EventHandler
 {
@@ -47,6 +54,25 @@ public class EventHandler
 			PacketDispatcher.sendTo(new SyncPlayersStatsPropsMessage((EntityPlayer) event.entity), (EntityPlayerMP) event.entity);
 		}
 	
+	}
+	
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onItemTooltip(ItemTooltipEvent event)
+	{
+		SkillTrackerData tracker = SkillTrackerData.get(event.entityPlayer);
+		RecipeWrapper recipe = RecipeHelper.getWrappedRecipefromItemStack(event.itemStack);
+		
+		if(tracker != null && recipe != null)
+		{
+			if(tracker.GetSkillByID(recipe.getSkill()).getSkillLevel() >= recipe.getDifficulty())
+			{
+				event.toolTip.add(new ChatComponentTranslation(EnumChatFormatting.YELLOW+"You can build this!").getUnformattedText());
+			}else {
+				event.toolTip.add(new ChatComponentTranslation(EnumChatFormatting.RED+"Need: "+ tracker.GetSkillByID(recipe.getSkill()).getLocName() +" skill of "+ recipe.getDifficulty()).getUnformattedText());
+				
+			}
+		}
 	}
 	
 	@SubscribeEvent

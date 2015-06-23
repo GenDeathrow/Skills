@@ -82,7 +82,7 @@ public class Skillz
 			//RecipeManager.WrapVanillaRecipes();
 			
 			//TODO dont really nuderstaND RECIPE SORTER
-			RecipeSorter.INSTANCE.register("RecipeWrapper", RecipeWrapper.class, Category.UNKNOWN, "after:forge:shapelessore");
+			//RecipeSorter.INSTANCE.register("RecipeWrapper", RecipeWrapper.class, Category.UNKNOWN, "after:forge:shapelessore");
 			//RecipeWrapper test = RecipeHelper.getWrappedRecipefromItemStack(Items.bucket);
 			
 			//if(test != null)

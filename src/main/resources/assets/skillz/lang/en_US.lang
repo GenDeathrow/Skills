@@ -14,8 +14,11 @@ skill.melee.name=Hand to Hand
 skill.tactics.name=Combat Tactics
 
 skill.cat.crafting=Crafting
-skill.blacksmiting.name=Blacksmithing
-skill.woodworking.name=Woodworking
+skill.blacksmiting.name=Blacksmith
+skill.woodworking.name=Carpentry 
+skill.leatherworking.name=Tanner
+skill.bowcrafting.name=Fletcher
+skill.cooking.name=Cooking
 
 stat.dex.name=Dexterity
 stat.str.name=Strength
