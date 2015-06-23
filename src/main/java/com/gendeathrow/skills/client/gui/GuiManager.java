@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData;
 import com.gendeathrow.skills.common.stat.StatTrackerData.PlayerStat;
+import com.gendeathrow.skills.core.SKSettings;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
 import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
@@ -57,6 +58,7 @@ public class GuiManager
 			return;
 		}
 		
+		if(SKSettings.showDebug == false) return;
 		DrawStat(event);
 		DrawSkill(event);
 		
@@ -142,6 +144,9 @@ public class GuiManager
 			Minecraft.getMinecraft().fontRendererObj.drawString( skill.getLocName() +": "+ skill.getSkillLevel(), 10, startY, Color.black.getRGB());
 			startY += Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 4;
 		}
+		
+		String top = "Debug Screen 'M' to Toggle";
+		Minecraft.getMinecraft().fontRendererObj.drawString(top, res.getScaledWidth()/2 - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(top)/2), 10, Color.yellow.getRGB());
 		
 		Minecraft.getMinecraft().fontRendererObj.drawString( "Switch Cat 'N'", 10, startY, Color.yellow.getRGB());
 

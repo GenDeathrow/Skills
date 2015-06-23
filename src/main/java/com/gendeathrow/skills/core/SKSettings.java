@@ -14,5 +14,7 @@ public class SKSettings
 	public static boolean updateCheck = true;
 	
 	public final static HashMap<String, SkillDifficulty> blockRegistry = new HashMap<String, SkillDifficulty>();
+	
+	public static boolean showDebug = true;
 
 }

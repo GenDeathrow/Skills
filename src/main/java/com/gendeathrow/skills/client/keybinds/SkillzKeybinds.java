@@ -11,15 +11,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import com.gendeathrow.skills.client.gui.GuiManager;
+import com.gendeathrow.skills.core.SKSettings;
 
 @SideOnly(Side.CLIENT)
 public class SkillzKeybinds 
 {
 	public static KeyBinding changeCat;
+	public static KeyBinding debugGui;
 	
 	public static void register()
 	{
 		changeCat = new KeyBinding(StatCollector.translateToLocal("keybinds.Skillz.changeCat"), Keyboard.KEY_N, "Skillz");
+		debugGui = new KeyBinding(StatCollector.translateToLocal("Show Debug Gui"), Keyboard.KEY_M, "Skillz");
 		
 		ClientRegistry.registerKeyBinding(changeCat);
 	}
@@ -30,6 +33,9 @@ public class SkillzKeybinds
 		if(changeCat.isPressed())
 		{
 			GuiManager.changeCat();
+		}else if(debugGui.isPressed())
+		{
+			SKSettings.showDebug = !SKSettings.showDebug;
 		}
 		
 	}
