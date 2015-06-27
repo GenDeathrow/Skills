@@ -4,7 +4,6 @@ skill.cat.resources=Gathering Resources
 skill.mining.name=Mining
 skill.lumberjacking.name=LumberJacking
 skill.farming.name=Farming
-skill.fishing.name=Fishing
 
 skill.cat.combat=Combat
 skill.swords.name=Sword
@@ -15,10 +14,11 @@ skill.tactics.name=Combat Tactics
 
 skill.cat.crafting=Crafting
 skill.blacksmiting.name=Blacksmith
-skill.woodworking.name=Carpentry 
+skill.carpentry.name=Carpentry 
 skill.leatherworking.name=Tanner
 skill.bowcrafting.name=Fletcher
 skill.cooking.name=Cooking
+skill.tinkering.name=Tinkering
 
 stat.dex.name=Dexterity
 stat.str.name=Strength
