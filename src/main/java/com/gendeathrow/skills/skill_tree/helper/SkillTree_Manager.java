@@ -9,9 +9,11 @@ import com.gendeathrow.skills.skill_tree.combat.ParrySkill;
 import com.gendeathrow.skills.skill_tree.combat.SwordSkill;
 import com.gendeathrow.skills.skill_tree.combat.TacticsSkill;
 import com.gendeathrow.skills.skill_tree.crafting.BlackSmiting;
+import com.gendeathrow.skills.skill_tree.crafting.BowCrafting;
 import com.gendeathrow.skills.skill_tree.crafting.Cooking;
 import com.gendeathrow.skills.skill_tree.crafting.Carpentry;
 import com.gendeathrow.skills.skill_tree.crafting.Tinkering;
+import com.gendeathrow.skills.skill_tree.magical.Alchemy;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FarmingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FishingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.LumberJackSkill;
@@ -50,6 +52,10 @@ public class SkillTree_Manager
 		this.SkillList.put(Carpentry.id, Carpentry.class);
 		this.SkillList.put(Cooking.id, Cooking.class);
 		this.SkillList.put(Tinkering.id, Tinkering.class);
+		this.SkillList.put(BowCrafting.id, BowCrafting.class);
+		
+		//Magical Skills
+		this.SkillList.put(Alchemy.id, Alchemy.class);
 			
 		//Register recipes
 		//TODO Turned off for build 
@@ -69,5 +75,9 @@ public class SkillTree_Manager
 			BlackSmiting.RegisterRecipe();
 		//LumberJacking
 			Carpentry.RegisterRecipe();
+			
+			Tinkering.RegisterRecipe();
+			
+			BowCrafting.RegisterRecipe();
 	}
 }

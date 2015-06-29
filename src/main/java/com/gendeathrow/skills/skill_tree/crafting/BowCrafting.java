@@ -1,46 +1,71 @@
 package com.gendeathrow.skills.skill_tree.crafting;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
+import com.gendeathrow.skills.common.crafting.RecipeWrapper;
+import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
+import com.gendeathrow.skills.utils.RecipeHelper;
 import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 public class BowCrafting extends CraftingBase implements ISkill{
 
+	public static String id = "bowcrafting";
+	
 	public BowCrafting(SkillTrackerData tracker) {
 		super(tracker);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String LocalizedName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "skill.bowcrafting.name";
 	}
 
 	@Override
 	public String ULN() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.id;
 	}
 
 	@Override
 	public String Description() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EnumStats PrimaryStat() {
-		// TODO Auto-generated method stub
-		return null;
+		return EnumStats.Dexterity;
 	}
 
 	@Override
 	public EnumStats SecondaryStat() {
-		// TODO Auto-generated method stub
-		return null;
+		return EnumStats.Strength;
+	}
+	
+	
+	@Override
+	public void onEvent(Object event) 
+	{
+		if(event instanceof ItemCraftedEvent)
+		{
+			ItemCraftedEvent newEvent = (ItemCraftedEvent) event;
+			
+			RecipeWrapper recipe = RecipeHelper.getWrappedRecipefromItemStack((newEvent.crafting));
+			
+			if(recipe!= null && recipe.getSkill() == this.id)
+			{
+				this.calculateGain(this.tracker.trackedEntity, new SkillDifficulty(this.id).setDifficulty(recipe.getDifficulty()));
+			}
+
+		}
+	}
+	
+	public static void RegisterRecipe()
+	{
+		RecipeHelper.RegisterWrappedRecipe(Items.bow, 0, BowCrafting.id);
+		RecipeHelper.RegisterWrappedRecipe(Items.arrow, 0, BowCrafting.id);	
 	}
 	
 }

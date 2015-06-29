@@ -35,6 +35,7 @@ public class GuiManager
 		CatList.add("resource_gathering");
 		CatList.add("combat_skill");
 		CatList.add("crafting_skill");
+		CatList.add("magical_skill");
 	}
 	
 	public static void changeCat()
@@ -118,11 +119,12 @@ public class GuiManager
 			String skillTree = it.next();
 
 			SkillTreeBase skill = tracker.GetSkillByID(skillTree);
-		
+		try{
 			if(skill.getCatULN() == CatList.get(currentCatDisplay))
 			{
 				DrawArray.add(skill);
 			}
+		}catch(NullPointerException e) {}
 		}		
 		
 		int boxheight = ((DrawArray.size()+1)* 10)+15 + 15 + 15;

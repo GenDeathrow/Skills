@@ -14,11 +14,15 @@ skill.tactics.name=Combat Tactics
 
 skill.cat.crafting=Crafting
 skill.blacksmiting.name=Blacksmith
-skill.carpentry.name=Carpentry 
+skill.carpentry.name=Carpentry/Masonry 
 skill.leatherworking.name=Tanner
-skill.bowcrafting.name=Fletcher
+skill.bowcrafting.name=Fletcher/BowCrafting
 skill.cooking.name=Cooking
 skill.tinkering.name=Tinkering
+
+skill.cat.magical=Magical
+skill.alchemy.name=Alchemy
+skill.enchanting.name=Enchanting
 
 stat.dex.name=Dexterity
 stat.str.name=Strength
