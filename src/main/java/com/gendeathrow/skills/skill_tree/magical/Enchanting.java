@@ -1,5 +1,8 @@
 package com.gendeathrow.skills.skill_tree.magical;
 
+import net.minecraft.init.Blocks;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
 import com.gendeathrow.skills.skill_tree.helper.ISkill;
 import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
@@ -47,6 +50,17 @@ public class Enchanting extends MagicalBase implements ISkill
 	public void onEvent(Object event) 
 	{
 	
+		if(event instanceof PlayerInteractEvent)
+		{
+			if(((PlayerInteractEvent) event).action == PlayerInteractEvent.Action.LEFT_CLICK_BLOCK)
+			{
+				if(((PlayerInteractEvent) event).world.getBlockState(((PlayerInteractEvent) event).pos).getBlock() == Blocks.enchanting_table)
+				{
+					System.out.println("open enchant");
+				}
+			}
+		}
+		
 	}
 
 }

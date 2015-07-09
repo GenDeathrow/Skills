@@ -72,7 +72,7 @@ public class SK_FishingRod extends Item
     			
     			if(shapedRecipe.getRecipeOutput().getItem() == Items.fishing_rod)
     			{
-    				
+    				//shapedRecipe.getRecipeOutput().setItem(fishingrod);
     				CraftingManager.getInstance().getRecipeList().remove(index);
     				break;
     			}

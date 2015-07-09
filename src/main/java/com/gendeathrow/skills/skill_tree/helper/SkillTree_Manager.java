@@ -14,6 +14,7 @@ import com.gendeathrow.skills.skill_tree.crafting.Cooking;
 import com.gendeathrow.skills.skill_tree.crafting.Carpentry;
 import com.gendeathrow.skills.skill_tree.crafting.Tinkering;
 import com.gendeathrow.skills.skill_tree.magical.Alchemy;
+import com.gendeathrow.skills.skill_tree.magical.Enchanting;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FarmingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.FishingSkill;
 import com.gendeathrow.skills.skill_tree.resource_gathering.LumberJackSkill;
@@ -56,6 +57,7 @@ public class SkillTree_Manager
 		
 		//Magical Skills
 		this.SkillList.put(Alchemy.id, Alchemy.class);
+		this.SkillList.put(Enchanting.id, Enchanting.class);
 			
 		//Register recipes
 		//TODO Turned off for build 

@@ -1,5 +1,7 @@
 package com.gendeathrow.skills.common;
 
+import net.minecraft.block.BlockEnchantmentTable;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -23,6 +25,7 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerOpenContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -86,6 +89,11 @@ public class EventHandler
 	public void onLivingUpdate(LivingUpdateEvent event)
 	{
 		
+	}
+	
+	@SubscribeEvent
+	public void open (PlayerOpenContainerEvent event)
+	{
 	}
 	
 	@SubscribeEvent
@@ -213,13 +221,24 @@ public class EventHandler
 	@SubscribeEvent
 	public void onPotionBrewPre(PotionBrewEvent event)
 	{
-		
+		System.out.println("brew pre");
 	}
 	
 	@SubscribeEvent
 	public void onPotionBrewPost(PotionBrewEvent.Post event)
 	{
-		
+		System.out.println("brew posts");
+	}
+	
+	@SubscribeEvent
+	public void onBlockPlace(BlockEvent.PlaceEvent event)
+	{
+		if(event.placedBlock.getBlock() instanceof BlockEnchantmentTable)
+		{
+			//event.setCanceled(true);
+			
+			//event.world.setBlockState(event.pos, new IBlockState())
+		}
 	}
 	
 	@SubscribeEvent
@@ -239,6 +258,7 @@ public class EventHandler
 	{
 		
 	}
+	
 	
 	@SubscribeEvent
 	public void onHoeEvent(UseHoeEvent event)

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 
-import com.gendeathrow.skills.client.gui.GuiManager;
+import com.gendeathrow.skills.client.gui.DebugHud;
 import com.gendeathrow.skills.core.SKSettings;
 
 @SideOnly(Side.CLIENT)
@@ -32,7 +32,7 @@ public class SkillzKeybinds
 	{
 		if(changeCat.isPressed())
 		{
-			GuiManager.changeCat();
+			DebugHud.instance.changeCat();
 		}else if(debugGui.isPressed())
 		{
 			SKSettings.showDebug = !SKSettings.showDebug;
