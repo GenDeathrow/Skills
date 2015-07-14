@@ -9,6 +9,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import org.lwjgl.opengl.GL11;
+
+import com.gendeathrow.skills.client.gui.inventory.SK_GuiEnchantment;
+
 @SideOnly(Side.CLIENT)
 public class GuiManager 
 {
@@ -28,8 +32,18 @@ public class GuiManager
 		{
 			return;
 		}
-
-		DebugHud.instance.DrawDebugHud(event);		
+		
+		GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_LIGHTING);
+	        //GL11.glEnable(GL11.GL_BLEND);
+	        GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+				DebugHud.instance.DrawDebugHud(event);
+			GL11.glEnable(GL11.GL_LIGHTING);
+	        GL11.glEnable(GL11.GL_TEXTURE_2D);
+	      //  GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
 	}
 
 	
@@ -40,19 +54,11 @@ public class GuiManager
 	@SubscribeEvent
 	public void onGuiOpen(GuiOpenEvent event)
 	{
-		if(event.gui != null && event.gui.getClass() == GuiEnchantment.class)
-		{
-			GuiEnchantment gui = (GuiEnchantment) event.gui;			
-		}
-//		if(event.gui != null && event.gui.getClass() == GuiInventory.class && !(event.gui instanceof GuiBigInventory))
-//		{
-//			event.gui = new EnchantingInterruptor(Minecraft.getMinecraft().thePlayer);
-//		} else if(event.gui == null && Minecraft.getMinecraft().thePlayer.inventoryContainer instanceof BigContainerPlayer)
-//		{
-//			// Reset scroll and inventory slot positioning to make sure it doesn't screw up later
-//			((EnchantingInterruptor)Minecraft.getMinecraft().thePlayer.inventoryContainer).scrollPos = 0;
-//			((EnchantingInterruptor)Minecraft.getMinecraft().thePlayer.inventoryContainer).UpdateScroll();
-//		}
+			if (event.gui instanceof GuiEnchantment && !(event.gui instanceof SK_GuiEnchantment)) 
+			{
+				event.gui = new SK_GuiEnchantment((GuiEnchantment) event.gui);
+			}
+
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.gendeathrow.skills.core.Skillz;
 import com.gendeathrow.skills.network.client.SyncPlayersSkillPropsMessage;
 import com.gendeathrow.skills.network.client.SyncPlayersStatsPropsMessage;
+import com.gendeathrow.skills.network.client.sendEnchantSkill;
 
 
 /**
@@ -53,6 +54,7 @@ public class PacketDispatcher
 
 		// Packets handled on SERVER
 		//registerMessage(OpenGuiMessage.class);
+		registerMessage(sendEnchantSkill.class);
 
 		// If you don't want to make a 'registerMessage' method, you can do it directly:
 		//PacketDispatcher.dispatcher.registerMessage(SyncPlayerPropsMessage.class, SyncPlayerPropsMessage.class, packetId++, Side.CLIENT);

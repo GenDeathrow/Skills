@@ -12,9 +12,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Post;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.opengl.GL11;
 
 import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.common.skill.SkillTrackerData;
@@ -23,9 +26,9 @@ import com.gendeathrow.skills.common.stat.StatTrackerData.PlayerStat;
 import com.gendeathrow.skills.core.SKSettings;
 import com.gendeathrow.skills.skill_tree.helper.SkillTreeBase;
 import com.gendeathrow.skills.skill_tree.helper.SkillTree_Manager;
+import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 import com.gendeathrow.skills.utils.MathHelper;
 import com.gendeathrow.skills.utils.RenderAssist;
-import com.gendeathrow.skills.utils.EnumHelper.EnumStats;
 
 @SideOnly(Side.CLIENT)
 public class DebugHud 
@@ -49,10 +52,12 @@ public class DebugHud
 	
 	public static void DrawDebugHud(Post event)
 	{
-		if(SKSettings.showDebug == false) return;
-		DebugHud.instance.DrawStat(event);
-		DebugHud.instance.DrawSkill(event);
-		DebugHud.instance.drawSkillDiff(event);
+
+			if(SKSettings.showDebug == false) return;
+			DebugHud.instance.DrawStat(event);
+			DebugHud.instance.DrawSkill(event);
+			DebugHud.instance.drawSkillDiff(event);
+
 	}
 	
 	public static void changeCat()

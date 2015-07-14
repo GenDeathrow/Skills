@@ -4,6 +4,7 @@ skill.cat.resources=Gathering Resources
 skill.mining.name=Mining
 skill.lumberjacking.name=LumberJacking
 skill.farming.name=Farming
+skill.fishing.name=Fishing
 
 skill.cat.combat=Combat
 skill.swords.name=Sword

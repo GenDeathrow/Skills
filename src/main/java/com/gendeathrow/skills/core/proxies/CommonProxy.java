@@ -7,14 +7,18 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.gendeathrow.skills.client.gui.GuiHandler;
 import com.gendeathrow.skills.common.EventHandler;
 import com.gendeathrow.skills.common.skill.SkillDifficulty;
 import com.gendeathrow.skills.core.Skillz;
 
 public class CommonProxy {
 
+	public GuiHandler guiHandler = new GuiHandler();
+	
 	public boolean isClient()
 	{
 		return false;
@@ -35,6 +39,8 @@ public class CommonProxy {
 	{
 		registerEventHandlers();
 		registerTickHandlers();
+
+		NetworkRegistry.INSTANCE.registerGuiHandler(Skillz.instance, guiHandler);
 
 //		//ObjectHandler.initItems();
 //		ObjectHandler.initBlocks();

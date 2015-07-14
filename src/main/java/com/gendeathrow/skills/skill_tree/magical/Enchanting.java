@@ -1,5 +1,6 @@
 package com.gendeathrow.skills.skill_tree.magical;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -14,6 +15,7 @@ public class Enchanting extends MagicalBase implements ISkill
 	public Enchanting(SkillTrackerData tracker) 
 	{
 		super(tracker);
+		this.setGain(0.5D);
 	}
 
 	@Override
@@ -60,6 +62,12 @@ public class Enchanting extends MagicalBase implements ISkill
 				}
 			}
 		}
+		
+	}
+
+	public void useSkill(EntityPlayer player) {
+
+		this.calculateGain(player, 1);
 		
 	}
 

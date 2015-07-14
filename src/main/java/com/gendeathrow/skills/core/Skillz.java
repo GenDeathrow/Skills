@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import org.apache.logging.log4j.Logger;
 
-import com.gendeathrow.skills.blocks.SK_Block_Enchanting_Table;
 import com.gendeathrow.skills.core.proxies.CommonProxy;
 import com.gendeathrow.skills.entity.projectile.SK_FishHook;
 import com.gendeathrow.skills.items.SK_FishingRod;
@@ -65,8 +64,6 @@ public class Skillz
 			
 	    	proxy.init(event);
 			
-			SK_Block_Enchanting_Table.init();
-			SK_Block_Enchanting_Table.Register();
 	    }
 	    @EventHandler
 		public void postInit(FMLPostInitializationEvent event)
